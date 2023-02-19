@@ -1,6 +1,12 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import {initializeApp} from "firebase/app";
+import {getAuth,
+        createUserWithEmailAndPassword,
+        signInWithEmailAndPassword,
+        onAuthStateChanged,
+        signOut,
+        sendPasswordResetEmail,
+} from "firebase/auth";
 import {firebaseConfig} from "./Firebase";
 
 
@@ -12,39 +18,41 @@ const app = initializeApp(firebaseConfig);
 const FirebaseAuthProvider = (props) => {
 
     const auth = getAuth(app);
-    const [data, setData] = useState(null);
+    const [currentUserId, setCurrentUserId] = useState(null);
+    console.log('!!!999',auth.currentUser)
+
+
+    const create = (email, password) => {
+        return createUserWithEmailAndPassword(auth, email, password)
+    }
 
     const login = (email, password) => {
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                setData({id: user.uid, email: user.email})
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log('errorCode',errorCode )
-                console.log('errorMessage', errorMessage)
-            });
+        return signInWithEmailAndPassword(auth, email, password)
     }
 
-    const author = (email, password) => {
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                setData({id: user.uid, email: user.email})
+    const forgetPassword = (email) => {
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+                console.log('finish')
             })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log('errorCode',errorCode )
-                console.log('errorMessage', errorMessage)
-            });
     }
+
+    const logout = () => {
+        return signOut(auth)
+    }
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            console.log('!!!user',user)
+            setCurrentUserId(user ? user.uid : null);
+        })
+    },[])
 
     return (
         <MyContext.Provider
-            value={{data, login, author}}>
+            value={{create, login, logout,
+                currentUserId, forgetPassword
+            }}>
             {props.children}
         </MyContext.Provider>
     );

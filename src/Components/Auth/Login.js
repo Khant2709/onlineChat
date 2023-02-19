@@ -1,55 +1,65 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useAuth} from "../../firebase/FirebaseAuthProvider";
 import {useNavigate} from "react-router";
 import {NavLink} from "react-router-dom";
-import {updateCurrentUser} from "../../Redux/AuthSlice";
-import {useDatabase} from "../../firebase/FirebaseDatabaseProvider";
-import {useDispatch} from "react-redux";
+import Form from "./Form";
 
 const Registration = () => {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const {data, author} = useAuth();
-    const {user, getUser} = useDatabase();
-    const dispatch = useDispatch();
+    const [error, setError] = useState(false)
+    const [text, setText] = useState('')
+    const {login, forgetPassword} = useAuth();
     const navigate = useNavigate();
 
-    const login = () => {
-        author(email, password)
-    };
+    const fieldList = [
+        {
+            type: 'email',
+            name: 'email',
+            minLength: null,
+            pattern: {
+                value: /^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я\.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u,
+                message: 'Введите корректно свой имаил',
+            },
+        },
+        {
+            type: 'password',
+            name: 'password',
+            minLength: {
+                value: 6,
+                message: 'Минимально 6 символов'
+            },
+            pattern: null,
+        },
+    ]
 
-    useEffect(() => {
-        if (data) {
-            localStorage.setItem('uid', data.id);
-            getUser(data.id)
-        }
-    }, [data])
+    const logIn = (data) => {
+        login(data.email, data.password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                navigate('/profile');
+                console.log('5555', user)
+            })
+            .catch((error) => {
+                setError(true);
+                console.error('errorCode', error.code)
+                console.error('errorMessage', error.message)
+            });
+    }
 
-    useEffect(() => {
-        if (user) {
-            console.log({user})
-            dispatch(updateCurrentUser({name: user.username, email: user.email}))
-            navigate('/profile');
-        }
-    }, [user])
+    const forget = (email) => {
+        forgetPassword(email)
+    }
 
     return (
         <div>
-            <div>
-                <input type='email' placeholder={'email'} value={email} onChange={(e) => {
-                    setEmail(e.target.value)
-                }}/>
-            </div>
-            <div>
-                <input type={'password'} placeholder={'password'} value={password} onChange={(e) => {
-                    setPassword(e.target.value)
-                }}/>
-            </div>
-            <div>
-                <button onClick={login}>auth</button>
-            </div>
-            <NavLink to={'/registration'}>registration</NavLink>
+            <Form login={logIn} fieldList={fieldList} error={error}/>
+            <NavLink to={'/registration'}>Зарегистрироваться</NavLink>
+                <br/>
+            <input type={'email'}
+                   placeholder={'Введите ваш email'}
+                   value={text}
+                   onChange={(e) => {setText(e.target.value)}}/>
+            <button onClick={() => forget(text)}>Забыл пароль</button>
         </div>
     );
 };

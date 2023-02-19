@@ -1,17 +1,15 @@
-import React, {createContext, useContext, useState} from 'react';
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, onValue } from "firebase/database";
+import React, {createContext, useContext} from 'react';
+import {initializeApp} from "firebase/app";
+import {getDatabase, ref, set, onValue} from "firebase/database";
 import {firebaseConfig} from "./Firebase";
 
 
 const MyContext = createContext({});
-
 const app = initializeApp(firebaseConfig);
 
 const FirebaseDatabaseProvider = (props) => {
 
     const db = getDatabase(app);
-    const [user, setUser] = useState(null);
 
     const addUser = (userId, name, email) => {
         set(ref(db, 'allUsers/' + userId), {
@@ -22,17 +20,19 @@ const FirebaseDatabaseProvider = (props) => {
     }
 
     const getUser = (userId) => {
-        const starCountRef = ref(db, 'allUsers/' + userId);
-        onValue(starCountRef, (snapshot) => {
-            const data = snapshot.val();
-            console.log("data",data)
-            setUser(data);
-        });
+        return new Promise((resolve, reject) => {
+            const starCountRef = ref(db, 'allUsers/' + userId);
+            onValue(starCountRef, (snapshot) => {
+                const data = snapshot.val();
+                console.log("data", data)
+                resolve(data);
+            });
+        })
     }
 
     return (
         <MyContext.Provider
-            value={{addUser, getUser, user}}>
+            value={{addUser, getUser}}>
             {props.children}
         </MyContext.Provider>
     );
