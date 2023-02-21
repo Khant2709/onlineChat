@@ -3,18 +3,27 @@ import './App.css';
 import Registration from "./Components/Auth/Registration";
 import {Route, Routes} from "react-router";
 import Login from "./Components/Auth/Login";
-import Profile from "./Components/Profile/Profile";
+import Navbar from "./Components/Navbar/Navbar";
+import HeaderContainer from "./Components/Header/HeaderContainer";
+import ProfileContainer from "./Components/Profile/ProfileContainer";
 
 function App() {
-  return (
-    <div>
-      <Routes>
-          <Route path={'/'} element={<Login/>}/>
-          <Route path={'/registration'} element={<Registration/>}/>
-          <Route path={'/profile'} element={<Profile/>}/>
-      </Routes>
-    </div>
-  );
+
+    return (
+        <div className={'mainBlock'}>
+            <HeaderContainer/>
+            <div className={'minorBlock'}>
+                <Navbar/>
+                <div  className={'content'}>
+                    <Routes>
+                        <Route path={'/'} element={<Login/>}/>
+                        <Route path={'/registration'} element={<Registration/>}/>
+                        <Route path={'/profile/*'} element={<ProfileContainer/>}/>
+                    </Routes>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default App;

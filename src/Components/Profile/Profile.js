@@ -1,46 +1,40 @@
-import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {useAuth} from "../../firebase/FirebaseAuthProvider";
-import {useNavigate} from "react-router";
-import {updateCurrentUser} from "../../Redux/AuthSlice";
-import {useDatabase} from "../../firebase/FirebaseDatabaseProvider";
-
-const Profile = () => {
-
-    const {logout, currentUserId} = useAuth();
-    const {getUser} = useDatabase();
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const currentUser = useSelector(state => state.auth.currentUser);
-    console.log('currentUserId', currentUserId);
+import React, {useState} from 'react';
+import classes from './Profile.module.css'
+import image from '../../image/anonymity.png'
+import FormToProfile from "./FormToProfile";
 
 
-    useEffect(() => {
-        currentUserId && getUser(currentUserId)
-            .then((data) => {
-                console.log('0000', data);
-                dispatch(updateCurrentUser({name: data.username, email: data.email}))
-            })
-    }, [currentUserId])
+const Profile = (props) => {
 
-    const logOut = () => {
-        logout()
-            .then(() => {
-                navigate('/');
-            })
-            .catch((error) => {
-                console.error(error)
-            })
-    }
+    const [isEdit, setIsEdit] = useState(false);
 
     return (
-        <div>
-            {currentUser.email
+        <div className={classes.profileBlock}>
+            {props.currentUser
                 ? <>
-                    <span>{currentUser.name}</span><br/>
-                    <span>{currentUser.email}</span><br/>
-                    <button onClick={logOut}>logout</button>
+                    <div className={classes.title}>
+                        Ваш профиль:
+                    </div>
+
+                    <div className={classes.avatar}>
+                        <img alt={'No picture'} src={image}/>
+                    </div>
+                    {isEdit
+                        ?
+                        <FormToProfile fieldList={props.fieldList} setIsEdit={setIsEdit} updateData={props.updateData}/>
+                        : <>
+                            {Object.entries(props.currentUser).map((element, index) => {
+                                    if (element[0] !== 'uid') {
+                                        return <div key={index} className={classes.item}>
+                                            <span>{element[0]}</span>
+                                            <span>{element[1] ? element[1] : 'Не указан'}</span>
+                                        </div>
+                                    }
+                                }
+                            )}
+                            <button className={classes.btn} onClick={() => setIsEdit(true)}>Редактировать</button>
+                        </>
+                    }
                 </>
                 : <p>Идет загрузка....</p>
             }

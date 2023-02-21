@@ -49,9 +49,8 @@ const Registration = () => {
         create(data.email, data.password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                console.log('777', user)
+                // console.log('777', user)
                 addUser(user.uid, data.name, user.email);
-                localStorage.setItem('uid', user.uid);
                 dispatch(updateCurrentUser({name: data.name, email: user.email}))
                 navigate('/profile');
             })

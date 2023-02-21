@@ -1,13 +1,16 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, {createContext, useContext, useEffect} from 'react';
 import {initializeApp} from "firebase/app";
-import {getAuth,
-        createUserWithEmailAndPassword,
-        signInWithEmailAndPassword,
-        onAuthStateChanged,
-        signOut,
-        sendPasswordResetEmail,
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut,
+    sendPasswordResetEmail,
 } from "firebase/auth";
 import {firebaseConfig} from "./Firebase";
+import {useDispatch} from "react-redux";
+import {updateUid} from "../Redux/AuthSlice";
 
 
 const MyContext = createContext({});
@@ -18,18 +21,20 @@ const app = initializeApp(firebaseConfig);
 const FirebaseAuthProvider = (props) => {
 
     const auth = getAuth(app);
-    const [currentUserId, setCurrentUserId] = useState(null);
-    console.log('!!!999',auth.currentUser)
+    // console.log('auth.currentUser = ', auth.currentUser);
+    const dispatch = useDispatch();
 
-
+    //Регистрация пользователя
     const create = (email, password) => {
         return createUserWithEmailAndPassword(auth, email, password)
     }
 
+    //Вход существующего пользователя
     const login = (email, password) => {
         return signInWithEmailAndPassword(auth, email, password)
     }
 
+    //Востановление пароля
     const forgetPassword = (email) => {
         sendPasswordResetEmail(auth, email)
             .then(() => {
@@ -37,21 +42,23 @@ const FirebaseAuthProvider = (props) => {
             })
     }
 
+    //Выход из профиля
     const logout = () => {
         return signOut(auth)
     }
 
+    //Получение uid текущего профиля и установка в редьюсер
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
-            console.log('!!!user',user)
-            setCurrentUserId(user ? user.uid : null);
+            // console.log('Получение uid =', user)
+            dispatch(updateUid(user ? user.uid : null))
         })
-    },[])
+    }, [])
 
     return (
         <MyContext.Provider
-            value={{create, login, logout,
-                currentUserId, forgetPassword
+            value={{
+                create, login, logout, forgetPassword,
             }}>
             {props.children}
         </MyContext.Provider>

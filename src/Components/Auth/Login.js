@@ -36,7 +36,7 @@ const Registration = () => {
         login(data.email, data.password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                navigate('/profile');
+                navigate(`/profile/${user.uid}`);
                 console.log('5555', user)
             })
             .catch((error) => {
