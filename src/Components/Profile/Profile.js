@@ -24,7 +24,7 @@ const Profile = (props) => {
                         <FormToProfile fieldList={props.fieldList} setIsEdit={setIsEdit} updateData={props.updateData}/>
                         : <>
                             {Object.entries(props.currentUser).map((element, index) => {
-                                    if (element[0] !== 'uid') {
+                                    if (element[0] !== 'uid' && element[0] !== 'listMyChats' && element[0] !== 'subscription') {
                                         return <div key={index} className={classes.item}>
                                             <span>{element[0]}</span>
                                             <span>{element[1] ? element[1] : 'Не указан'}</span>

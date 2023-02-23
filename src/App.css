@@ -26,12 +26,13 @@
 .navbar {
     flex-basis: 25%;
     height: 92vh;
-    padding: 5px;
     border-right: 1px solid black;
+    display: flex;
+    flex-direction: column;
 }
 
 .content {
-    flex-basis: 70%;
+    flex-basis: 75%;
     display: flex;
     flex-direction: row;
 }

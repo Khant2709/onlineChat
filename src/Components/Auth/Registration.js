@@ -3,13 +3,14 @@ import {useAuth} from "../../firebase/FirebaseAuthProvider";
 import {useNavigate} from "react-router";
 import {useDatabase} from "../../firebase/FirebaseDatabaseProvider";
 import {useDispatch} from "react-redux";
-import {updateCurrentUser} from "../../Redux/AuthSlice";
 import Form from "./Form";
+import classes from './Auth.module.css'
+
 
 const Registration = () => {
 
     const {create} = useAuth();
-    const {addUser} = useDatabase();
+    const {updateUser} = useDatabase();
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -50,8 +51,7 @@ const Registration = () => {
             .then((userCredential) => {
                 const user = userCredential.user;
                 // console.log('777', user)
-                addUser(user.uid, data.name, user.email);
-                dispatch(updateCurrentUser({name: data.name, email: user.email}))
+                updateUser({uid: user.uid, name: data.name, email: user.email});
                 navigate('/profile');
             })
             .catch((error) => {
@@ -66,10 +66,10 @@ const Registration = () => {
     }
 
     return (
-        <div>
+        <div className={classes.loginBlock}>
             <Form login={logIn} fieldList={fieldList}/>
             <div>
-                <button onClick={cancel}>Отмена</button>
+                <button onClick={cancel} className={classes.btn}>Отмена</button>
             </div>
         </div>
     );

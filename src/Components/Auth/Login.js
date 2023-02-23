@@ -3,13 +3,16 @@ import {useAuth} from "../../firebase/FirebaseAuthProvider";
 import {useNavigate} from "react-router";
 import {NavLink} from "react-router-dom";
 import Form from "./Form";
+import classes from './Auth.module.css'
 
 const Registration = () => {
 
-    const [error, setError] = useState(false)
-    const [text, setText] = useState('')
     const {login, forgetPassword} = useAuth();
     const navigate = useNavigate();
+    const [error, setError] = useState(false);
+    const [text, setText] = useState('');
+    const [show, setShow] = useState(false);
+
 
     const fieldList = [
         {
@@ -51,15 +54,30 @@ const Registration = () => {
     }
 
     return (
-        <div>
-            <Form login={logIn} fieldList={fieldList} error={error}/>
-            <NavLink to={'/registration'}>Зарегистрироваться</NavLink>
-                <br/>
-            <input type={'email'}
-                   placeholder={'Введите ваш email'}
-                   value={text}
-                   onChange={(e) => {setText(e.target.value)}}/>
-            <button onClick={() => forget(text)}>Забыл пароль</button>
+        <div className={classes.loginBlock}>
+            {show
+                ? <>
+                    <label className={classes.label}>
+                                Введите ваш пароль
+                        <input type={'email'}
+                               placeholder={'Введите ваш email'}
+                               value={text}
+                               className={classes.inp}
+                               onChange={(e) => {
+                                   setText(e.target.value)
+                               }}/>
+                    </label>
+                    <button onClick={() => forget(text)} className={classes.btn}>Забыл пароль</button>
+                    <div onClick={() => setShow(false)} className={classes.forget}>Я помню</div>
+                </>
+                : <>
+                    <Form login={logIn} fieldList={fieldList} error={error}/>
+                    <div onClick={() => setShow(true)} className={classes.forget}>Забыл пароль?</div>
+                    <NavLink to={'/registration'}>
+                        <button className={classes.btn}>Зарегистрироваться</button>
+                    </NavLink>
+                </>
+            }
         </div>
     );
 };

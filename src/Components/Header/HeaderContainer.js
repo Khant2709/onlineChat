@@ -28,7 +28,11 @@ const HeaderContainer = () => {
 
     return (
         <div className={'header'}>
-            <Header currentUser={currentUser} logout={logOut} currentUserId={currentUserId}/>
+            <Header currentUser={currentUser}
+                    logout={logOut}
+                    currentUserId={currentUserId}
+                    navigate={navigate}
+            />
         </div>
     );
 };

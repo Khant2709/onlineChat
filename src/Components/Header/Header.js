@@ -27,7 +27,10 @@ const Header = (props) => {
                         </div>
                     </div>
                 </>
-                : <p>Вы не авторизированы</p>
+                :<div>
+                    <p>Вы не авторизированы</p>
+                    <button onClick={() => props.navigate('/')}>Войти</button>
+                </div>
             }
         </>
     );

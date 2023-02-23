@@ -17,8 +17,8 @@ const ProfileContainer = () => {
             value: currentUser?.name,
             required: 'Поле обязательное для заполнения',
             minLength: {
-                value: 6,
-                message: 'Минимально 6 символов'
+                value: 2,
+                message: 'Минимально 2 символов'
             },
             pattern: null,
             max: null,
