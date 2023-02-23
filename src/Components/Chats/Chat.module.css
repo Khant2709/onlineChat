@@ -5,6 +5,7 @@
     justify-content: center;
 }
 
+/* ------------------ Стилизация блока создания чата*/
 .chatCreate {
     align-self: center;
     display: flex;
@@ -59,6 +60,7 @@
     flex-direction: column;
 }
 
+/*  ------------------ стилизация Header в чате */
 .chatHeader {
     flex-basis: 5%;
     display: flex;
@@ -78,13 +80,53 @@
 .chatHeaderInfo {
     margin-right: 30px;
     font-size: 12px;
+    cursor: pointer;
+}
+
+/* ------------------ Стилизация основного блока чата*/
+.MainBlockChat {
+    flex-basis: 89%;
+    display: flex;
+    flex-direction: row;
 }
 
 .chat {
-    flex-basis: 89%;
     overflow: auto;
+    width: 100%;
+
 }
 
+.usersChat {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    background-color: #333333;
+    border: 1px solid black;
+    padding: 0.5em;
+}
+
+.user {
+    display: flex;
+    flex-direction: row;
+    padding: 0.5em;
+    margin: 0.5em 0;
+    color: whitesmoke;
+    background-color: #171717;
+    border-radius: 0.5em;
+}
+
+.user img {
+    width: 2.5em;
+    height: 2.5em;
+    margin-right: 0.5em;
+}
+
+.userCredential {
+    align-self: center;
+    font-size: 0.8em;
+}
+
+/* ------------------ Стилизация подписки на чат*/
 .chekSubscription {
     width: 70%;
     margin: 2em auto;
@@ -102,7 +144,7 @@
     padding: 5px;
     border-radius: 8px;
 }
-
+/* ------------------ Стилизация сообщений*/
 .message {
     width: 80%;
     padding: 10px;
@@ -136,6 +178,7 @@
     align-self: end;
 }
 
+/*  ------------------ стилизация Footer в чате */
 .chatFooter {
     flex-basis: 6%;
     display: flex;

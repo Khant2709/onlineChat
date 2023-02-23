@@ -2,14 +2,29 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import Profile from "./Profile";
 import {useDatabase} from "../../firebase/FirebaseDatabaseProvider";
+import {useNavigate, useParams} from "react-router";
 
+const getId = () => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
 
 const ProfileContainer = () => {
 
-    const {updateUser} = useDatabase();
+    const {updateUser, updateChat} = useDatabase();
     const currentUserId = useSelector(state => state.auth.currentUserId);
     const usersList = useSelector(state => state.users.usersList);
-    const [currentUser, setCurrentUser] = useState(null)
+
+    const [currentUser, setCurrentUser] = useState(null);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [myProfile, setMyProfile] = useState(null);
+
+    const navigate = useNavigate();
+    const params = useParams();
+    const nowUrl = Object.values(params).join();
+
     const fieldList = [
         {
             type: 'text',
@@ -101,16 +116,46 @@ const ProfileContainer = () => {
     ]
 
     useEffect(() => {
-         setCurrentUser(usersList.find(user => user.uid === currentUserId))
-    }, [usersList])
+        setCurrentUser(usersList.find(user => user.uid === currentUserId))
+        nowUrl !== currentUserId
+            ? setSelectedUser(usersList.find(user => user.uid === nowUrl))
+            : setSelectedUser(null)
+        nowUrl !== currentUserId ? setMyProfile(false) : setMyProfile(true)
+    }, [usersList, nowUrl])
 
     const updateData = (userData) => {
-        updateUser({...userData, uid: currentUserId})
+        updateUser({
+            ...userData, uid: currentUser.uid,
+            subscription: currentUser.subscription ? currentUser.subscription : [],
+            listMyChats: currentUser.listMyChats ? currentUser.listMyChats : []
+        })
+    }
+
+    const createChat = (userId) => {
+        const chatCredential = {
+            chatName: [currentUserId, userId],
+            chatId: getId(),
+            chatAdmin: currentUserId,
+            subscribers: [currentUserId, userId],
+            privateChat: [currentUserId, userId]
+        };
+        // console.log(chatCredential)
+        // console.log(Array.isArray(chatCredential.chatName) &&
+        //     usersList.find(user => user.uid === chatCredential.chatName.find(el => el !== currentUserId)).name)
+        updateChat(chatCredential)
+            .then(() => {
+                navigate(`/chat/${chatCredential.chatId}`)
+            })
     }
 
     return (
         <>
-            <Profile currentUser={currentUser} fieldList={fieldList} updateData={updateData}/>
+            <Profile currentUser={!selectedUser ? currentUser : selectedUser}
+                     fieldList={fieldList}
+                     updateData={updateData}
+                     myProfile={myProfile}
+                     createChat={createChat}
+            />
         </>
     );
 };

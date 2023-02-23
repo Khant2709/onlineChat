@@ -13,7 +13,7 @@ const Profile = (props) => {
             {props.currentUser
                 ? <>
                     <div className={classes.title}>
-                        Ваш профиль:
+                        {props.myProfile ? 'Ваш профиль:' : props.currentUser.name}
                     </div>
 
                     <div className={classes.avatar}>
@@ -32,7 +32,10 @@ const Profile = (props) => {
                                     }
                                 }
                             )}
-                            <button className={classes.btn} onClick={() => setIsEdit(true)}>Редактировать</button>
+                            {props.myProfile
+                                ? <button className={classes.btn} onClick={() => setIsEdit(true)}>Редактировать</button>
+                                : <button className={classes.btn} onClick={() => props.createChat(props.currentUser.uid)}
+                                >Отправить сообщение</button>}
                         </>
                     }
                 </>

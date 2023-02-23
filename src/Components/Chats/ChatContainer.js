@@ -19,23 +19,22 @@ const ChatContainer = () => {
     const currentUserId = useSelector(state => state.auth.currentUserId);
     const usersList = useSelector(state => state.users.usersList);
     const chatsList = useSelector(state => state.users.chatsList);
-    const [currentChat, setCurrentChat] = useState(false);
+
+    const [currentChat, setCurrentChat] = useState(null);
     const [chekSubscription, setChekSubscription] = useState(null);
     const currentUser = usersList.find(user => user.uid === currentUserId);
-
-    // console.log('!!!', currentUser)
-    // console.log('???', currentChat)
-
 
     const navigate = useNavigate();
     const params = useParams();
     const nowUrl = Object.values(params).join();
+    const usersInChat = usersList.filter(user => user?.subscription?.some(el => el === nowUrl))
 
+    //Проверка подписки пользователя на чат
     useEffect(() => {
-        !!currentUser && console.log('test =',currentUser?.subscription?.some(el => el === nowUrl))
-        !!currentUser && setChekSubscription(currentUser?.subscription?.some(el => el === nowUrl))
-    },[currentUser, nowUrl])
+        !!currentUser && setChekSubscription(currentChat?.subscribers?.some(el => el === currentUserId))
+    }, [currentChat, nowUrl])
 
+    //Отрисовка текущего чата
     useEffect(() => {
         setCurrentChat(chatsList.find(chat => chat.chatId === nowUrl))
     }, [chatsList, nowUrl])
@@ -81,7 +80,10 @@ const ChatContainer = () => {
             message: messageText,
             time: Date.now()
         }
-        updateChat({...currentChat, messages: currentChat.messages ? [...currentChat.messages, messageCredential] : [messageCredential]})
+        updateChat({
+            ...currentChat,
+            messages: currentChat.messages ? [...currentChat.messages, messageCredential] : [messageCredential]
+        })
     }
 
     return (
@@ -91,9 +93,11 @@ const ChatContainer = () => {
                 : <Chat currentChat={currentChat}
                         sendMessage={sendMessage}
                         usersList={usersList}
+                        usersInChat={usersInChat}
                         currentUserId={currentUserId}
                         chekSubscription={chekSubscription}
                         subscribe={subscribe}
+                        navigate={navigate}
                 />
             }
         </div>

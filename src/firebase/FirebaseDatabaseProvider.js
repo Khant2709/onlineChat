@@ -22,18 +22,6 @@ const FirebaseDatabaseProvider = (props) => {
         })
     }
 
-    //Сделать Подписку на изменение пользователя
-    // const getUser = (userId) => {
-    //     return new Promise((resolve, reject) => {
-    //         const starCountRef = ref(db, 'allUsers/' + userId);
-    //         onValue(starCountRef, (snapshot) => {
-    //             const data = snapshot.val();
-    //             console.log("data", data)
-    //             resolve(data);
-    //         });
-    //     })
-    // }
-
     //Создание чата
     const updateChat = ({...chat}) => {
         return set(ref(db, 'allChats/' + chat.chatId), {

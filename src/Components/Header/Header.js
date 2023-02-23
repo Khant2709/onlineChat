@@ -12,7 +12,8 @@ const Header = (props) => {
             {props.currentUserId
                 ? <>
                     <div className={classes.profile}>
-                        <div className={classes.profileAvatar}>
+                        <div className={classes.profileAvatar}
+                             onClick={() => props.navigate(`/profile/${props.currentUserId}`)}>
                             <img alt={'No picture'} src={image} className={classes.profileAvatar}/>
                         </div>
                         <div className={classes.profileInfo}>
