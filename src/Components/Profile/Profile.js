@@ -10,7 +10,7 @@ const Profile = (props) => {
 
     return (
         <div className={classes.profileBlock}>
-            {props.currentUser
+            {props.currentUser?.email
                 ? <>
                     <div className={classes.title}>
                         {props.myProfile ? 'Ваш профиль:' : props.currentUser.name}

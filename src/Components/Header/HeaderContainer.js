@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import Header from "./Header";
 import {useNavigate} from "react-router";
 import {useSelector} from "react-redux";
@@ -9,12 +9,8 @@ const HeaderContainer = () => {
     const {logout} = useAuth();
     const navigate = useNavigate();
     const currentUserId = useSelector(state => state.auth.currentUserId);
-    const usersList = useSelector(state => state.users.usersList);
-    const [currentUser, setCurrentUser] = useState(null)
+    const currentUser = useSelector(state => state.auth.currentUser);
 
-    useEffect(() => {
-        setCurrentUser(usersList.find(user => user.uid === currentUserId))
-    }, [usersList])
 
     const logOut = () => {
         logout()

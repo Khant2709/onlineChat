@@ -17,17 +17,17 @@ const ChatContainer = () => {
 
     const {updateUser, updateChat} = useDatabase();
     const currentUserId = useSelector(state => state.auth.currentUserId);
+    const currentUser = useSelector(state => state.auth.currentUser);
     const usersList = useSelector(state => state.users.usersList);
     const chatsList = useSelector(state => state.users.chatsList);
 
     const [currentChat, setCurrentChat] = useState(null);
     const [chekSubscription, setChekSubscription] = useState(null);
-    const currentUser = usersList.find(user => user.uid === currentUserId);
 
     const navigate = useNavigate();
     const params = useParams();
     const nowUrl = Object.values(params).join();
-    const usersInChat = usersList.filter(user => user?.subscription?.some(el => el === nowUrl))
+    const usersInChat = usersList.filter(user => currentChat?.subscribers?.some(el => el === user.uid))
 
     //Проверка подписки пользователя на чат
     useEffect(() => {

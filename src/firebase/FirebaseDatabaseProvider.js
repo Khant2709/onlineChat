@@ -4,6 +4,7 @@ import {getDatabase, ref, set, onValue} from "firebase/database";
 import {firebaseConfig} from "./Firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {updateChatsList, updateUsersList} from "../Redux/UsersSlice";
+import {updateCurrentUser} from "../Redux/AuthSlice";
 
 
 const MyContext = createContext({});
@@ -13,6 +14,7 @@ const FirebaseDatabaseProvider = (props) => {
 
     const db = getDatabase(app);
     const currentUserId = useSelector(state => state.auth.currentUserId);
+    const usersList = useSelector(state => state.users.usersList);
     const dispatch = useDispatch();
 
     //Создание или обновление пользователя
@@ -43,6 +45,10 @@ const FirebaseDatabaseProvider = (props) => {
             dispatch(updateChatsList( Object.values(data)))
         })
     },[])
+
+    useEffect(() => {
+        dispatch(updateCurrentUser(usersList.find(user => user.uid === currentUserId)))
+    },[usersList, currentUserId])
 
     return (
         <MyContext.Provider

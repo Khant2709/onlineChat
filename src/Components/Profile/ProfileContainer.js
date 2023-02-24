@@ -15,9 +15,9 @@ const ProfileContainer = () => {
 
     const {updateUser, updateChat} = useDatabase();
     const currentUserId = useSelector(state => state.auth.currentUserId);
+    const currentUser = useSelector(state => state.auth.currentUser);
     const usersList = useSelector(state => state.users.usersList);
 
-    const [currentUser, setCurrentUser] = useState(null);
     const [selectedUser, setSelectedUser] = useState(null);
     const [myProfile, setMyProfile] = useState(null);
 
@@ -116,7 +116,6 @@ const ProfileContainer = () => {
     ]
 
     useEffect(() => {
-        setCurrentUser(usersList.find(user => user.uid === currentUserId))
         nowUrl !== currentUserId
             ? setSelectedUser(usersList.find(user => user.uid === nowUrl))
             : setSelectedUser(null)
@@ -139,9 +138,6 @@ const ProfileContainer = () => {
             subscribers: [currentUserId, userId],
             privateChat: [currentUserId, userId]
         };
-        // console.log(chatCredential)
-        // console.log(Array.isArray(chatCredential.chatName) &&
-        //     usersList.find(user => user.uid === chatCredential.chatName.find(el => el !== currentUserId)).name)
         updateChat(chatCredential)
             .then(() => {
                 navigate(`/chat/${chatCredential.chatId}`)

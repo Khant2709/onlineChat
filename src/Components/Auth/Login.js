@@ -1,17 +1,20 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAuth} from "../../firebase/FirebaseAuthProvider";
 import {useNavigate} from "react-router";
 import {NavLink} from "react-router-dom";
 import Form from "./Form";
 import classes from './Auth.module.css'
+import {useSelector} from "react-redux";
 
 const Registration = () => {
 
     const {login, forgetPassword} = useAuth();
+    const currentUserId = useSelector(state => state.auth.currentUserId);
+
     const navigate = useNavigate();
     const [error, setError] = useState(false);
     const [text, setText] = useState('');
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(false)
 
 
     const fieldList = [
@@ -34,6 +37,11 @@ const Registration = () => {
             pattern: null,
         },
     ]
+
+    useEffect(() => {
+        currentUserId && navigate(`/profile/${currentUserId}`)
+    },[currentUserId])
+
 
     const logIn = (data) => {
         login(data.email, data.password)
