@@ -4,7 +4,7 @@ import {useNavigate} from "react-router";
 import {useSelector} from "react-redux";
 import {useAuth} from "../../firebase/FirebaseAuthProvider";
 
-const HeaderContainer = () => {
+const HeaderContainer = (props) => {
 
     const {logout} = useAuth();
     const navigate = useNavigate();
@@ -28,6 +28,8 @@ const HeaderContainer = () => {
                     logout={logOut}
                     currentUserId={currentUserId}
                     navigate={navigate}
+                    setShowAllChats={props.setShowAllChats}
+                    showAllChats={props.showAllChats}
             />
         </div>
     );

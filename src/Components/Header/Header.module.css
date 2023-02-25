@@ -1,13 +1,44 @@
 .logo {
-    width: 20%;
-    text-align: center;
-    align-self: center;
-    font-size: 28px;
-    font-family: "Rage Italic";
+    font-family: "Roboto", sans-serif;
+    font-weight: 600;
+    color: #fff;
+    font-size: 2rem;
+    margin-left: 2em;
+}
+
+.menu {
+    display: flex;
+    margin-right: 1em;
+}
+
+.menuItem {
+    height: 2em;
+    margin: 0.6em;
+    line-height: 2em;
+    padding: 0 20px;
+    display: flex;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: #000011;
+    color: #fff;
+    border: 0;
+    border-radius: 5px;
+    font-family: 'Asap';
+}
+
+.menuItem:hover {
+    color: #fff;
+    background-color: #333;
+    box-shadow: inset 0 2px 4px rgba(0,255,255,0.3),
+    inset 0 4px 8px rgba(0,255,255,0.3),
+    inset 0 8px 16px rgba(0,255,255,0.3);
+    transition: 0.2s;
+    transform: translateY(2px);
+    cursor: pointer;
+
 }
 
 .profile {
-    /*width: 25%;*/
     display: flex;
     flex-direction: row;
     padding: 5px;

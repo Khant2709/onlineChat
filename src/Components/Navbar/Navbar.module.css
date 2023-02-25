@@ -1,34 +1,42 @@
 .createChat {
     flex-basis: 5%;
-    padding: 7px;
+    display: flex;
+    justify-content: center;
 }
 
 .searchChat {
     flex-basis: 5%;
-    padding: 7px;
+    padding: 0.12em;
 }
 
 .searcher {
     width: 100%;
-    border-radius: 5px;
-    border: 0;
-    padding: 5px;
+    height: 100%;
+    border: 0.15em solid rgb(0, 255, 234);
+    padding: 0.5em;
 }
 
 .chatsList {
     flex-basis: 90%;
+    overflow-y: auto;
 }
 
 .chat {
     width: 100%;
-    padding: 10px;
-    margin-top: 3px;
+    padding: 0.6em;
     color: rgb(245, 245, 245);
-    background-color: #333333;
-    border-radius: 5px;
+    background-color: #222;
+    border-bottom: 0.06em solid black;
 }
 
 .chat:hover {
     cursor: pointer;
-    font-size: 17px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #222;
+    box-shadow: inset 0 2px 4px rgba(0,255,255,0.3),
+    inset 0 4px 8px rgba(0,255,255,0.3),
+    inset 0 8px 16px rgba(0,255,255,0.3);
+    transition: 0.2s;
+    transform: translateY(2px);
 }

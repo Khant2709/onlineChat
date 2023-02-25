@@ -1,17 +1,14 @@
 import React from 'react';
 import classes from './Navbar.module.css'
+import classButton from "../CssModules/Button.module.css";
 
 
 const Navbar = (props) => {
 
     return (
         <div className={'navbar'}>
-            <div className={classes.createChat}>
-                <button onClick={() => props.navigate('/chat/create')}>Создать новый чат</button>
-            </div>
 
             <div className={classes.searchChat}>
-                <span>Найти чат:</span>
                 <input placeholder={'search'}
                        className={classes.searcher}
                        value={props.searchText}
@@ -26,6 +23,11 @@ const Navbar = (props) => {
                         {chat.chatName}
                     </div>
                 })}
+            </div>
+
+            <div className={classes.createChat}>
+                <button onClick={() => props.navigate('/chat/create')}
+                        className={classButton.button}>Создать новый чат</button>
             </div>
         </div>
     );

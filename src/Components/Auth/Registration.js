@@ -2,16 +2,15 @@ import React from 'react';
 import {useAuth} from "../../firebase/FirebaseAuthProvider";
 import {useNavigate} from "react-router";
 import {useDatabase} from "../../firebase/FirebaseDatabaseProvider";
-import {useDispatch} from "react-redux";
 import Form from "./Form";
 import classes from './Auth.module.css'
+import classButton from "../CssModules/Button.module.css";
 
 
 const Registration = () => {
 
     const {create} = useAuth();
     const {updateUser} = useDatabase();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const fieldList = [
@@ -67,9 +66,12 @@ const Registration = () => {
 
     return (
         <div className={classes.loginBlock}>
+            <div className={classes.title}>
+                Регистрация
+            </div>
             <Form login={logIn} fieldList={fieldList}/>
             <div>
-                <button onClick={cancel} className={classes.btn}>Отмена</button>
+                <button onClick={cancel} className={classButton.button}>Отмена</button>
             </div>
         </div>
     );

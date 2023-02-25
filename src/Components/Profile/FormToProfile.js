@@ -2,6 +2,7 @@ import React from 'react';
 import {useForm} from "react-hook-form";
 import {ErrorMessage} from "@hookform/error-message";
 import classes from './Profile.module.css';
+import classButton from "../CssModules/Button.module.css";
 
 const FormToProfile = (props) => {
 
@@ -25,8 +26,8 @@ const FormToProfile = (props) => {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+        <div className={classes.form}>
+            <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
 
                 {props.fieldList.map((el, index) => {
                     return <div key={index}>
@@ -54,9 +55,9 @@ const FormToProfile = (props) => {
 
                     </div>
                 })}
-                <button disabled={!isValid} className={classes.btnForm}>Сохранить</button>
+                <button disabled={!isValid} className={classButton.button}>Сохранить</button>
             </form>
-            <button onClick={() => props.setIsEdit(false)} className={classes.btnForm}>Отмена</button>
+            <button onClick={() => props.setIsEdit(false)} className={classButton.button}>Отмена</button>
         </div>
     );
 };

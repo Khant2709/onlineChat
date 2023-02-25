@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import classes from './Chat.module.css'
 import {useNavigate} from "react-router";
+import classButton from "../CssModules/Button.module.css";
 
 
 const ChatCreate = (props) => {
@@ -19,7 +20,6 @@ const ChatCreate = (props) => {
                 Создание нового чата
             </div>
             <div className={classes.chatCreateInp}>
-                Название чата:
                 <input type={'text'}
                        placeholder={'Название чата'}
                        value={nameChat}
@@ -27,10 +27,13 @@ const ChatCreate = (props) => {
                 />
             </div>
             <div className={classes.chatCreateBtn}>
-                <button disabled={nameChat.trim().length < 3} onClick={addChat}>
+                <button disabled={nameChat.trim().length < 3}
+                        onClick={addChat}
+                        className={classButton.button}
+                >
                     Создать
                 </button>
-                <button onClick={() => navigate('/profile')}>
+                <button onClick={() => navigate('/profile')} className={classButton.button}>
                     Отмена
                 </button>
             </div>

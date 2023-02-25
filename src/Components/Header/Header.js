@@ -1,38 +1,27 @@
 import React from 'react';
 import classes from './Header.module.css'
-import image from '../../image/anonymity.png'
 
 const Header = (props) => {
 
     return (
         <>
             <div className={classes.logo}>
-                <span>LOGO</span>
+                <span>START-CHAT</span>
             </div>
-            {props.currentUserId !== null
-                ? <>
-                    {props.currentUser.email
-                        ? <>
-                            <div className={classes.profile}>
-                                <div className={classes.profileAvatar}
-                                     onClick={() => props.navigate(`/profile/${props.currentUserId}`)}>
-                                    <img alt={'No picture'} src={image} className={classes.profileAvatar}/>
-                                </div>
-                                <div className={classes.profileInfo}>
-                                    <div>{props.currentUser.name}</div>
-                                    <div>{props.currentUser.email}</div>
-                                    <button onClick={props.logout}>Logout</button>
-                                </div>
-                            </div>
-                        </>
-                        : <p>Идет загрузка....</p>
-                    }
-                </>
-                : <div>
-                    <p>Вы не авторизированы</p>
-                    <button onClick={() => props.navigate('/')}>Войти</button>
-                </div>
-            }
+            <div className={classes.menu}>
+                <button onClick={() => props.setShowAllChats(!props.showAllChats)}
+                     className={classes.menuItem} disabled={!props.currentUserId}>
+                    Все чаты
+                </button>
+                <button onClick={() => props.navigate(`/profile/${props.currentUserId}`)}
+                        className={classes.menuItem} disabled={!props.currentUserId}>
+                    Профиль
+                </button>
+                <button onClick={props.logout} className={classes.menuItem}
+                        disabled={!props.currentUserId}>
+                    {props.currentUserId ? 'Выйти' : 'Войти'}
+                </button>
+            </div>
         </>
     );
 };

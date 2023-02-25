@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import classes from './Chat.module.css'
 import image from "../../image/anonymity.png";
+import classButton from "../CssModules/Button.module.css";
 
 const Chat = (props) => {
 
@@ -11,7 +12,6 @@ const Chat = (props) => {
         props.sendMessage(messageText)
         setMessageText('');
     }
-
 
     return (
         <div className={classes.chatBlock}>
@@ -36,12 +36,12 @@ const Chat = (props) => {
             </div>
 
             <div className={classes.MainBlockChat}>
-                <div className={classes.chat}>
-                    {props.chekSubscription
+                <div className={classes.content}>
+                    {props.chekSubscription || props.chekSubscription === undefined
                         ? <>
                             {props.currentChat
                                 ? <>{props.currentChat.messages && props.currentChat?.messages?.length !== 0
-                                    ? <>
+                                    ? <div className={classes.chat}>
                                         {props.currentChat.messages.map((message, index) => {
                                             const date = new Date(message.time);
                                             let messageOwner = props.usersList.find(user => user.uid === message.uid)
@@ -54,17 +54,20 @@ const Chat = (props) => {
                                             </div>
 
                                         })}
-                                    </>
-                                    : <h2>Пока нет сообщений</h2>
+                                    </div>
+                                    : <h2 style={{color: 'white', marginTop: '1em'}}>Пока нет сообщений</h2>
                                 }</>
                                 : <p>Идет загрузка...</p>
                             }
                         </>
                         : <div className={classes.chekSubscription}>
                             <span className={classes.chatCreateTitle}>Для входа нужно подписаться</span>
-                            <button onClick={props.subscribe}>Подписаться</button>
+                            <button onClick={props.subscribe}
+                                    className={classButton.button}>Подписаться
+                            </button>
                         </div>
                     }
+
                 </div>
                 {showUsers && <div className={classes.usersChat}>
                     {props.usersInChat.map((user, index) => {
@@ -89,7 +92,11 @@ const Chat = (props) => {
                           onChange={(e) => setMessageText(e.target.value)}
                           disabled={!props.chekSubscription}
                 />
-                <button disabled={messageText.trim().length < 2} onClick={sendMessage}>Send</button>
+                <button disabled={messageText.trim().length < 2}
+                        onClick={sendMessage}
+                        className={classButton.button}
+                >Send
+                </button>
             </div>
         </div>
     );

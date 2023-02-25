@@ -2,6 +2,7 @@ import React from 'react';
 import {useForm} from "react-hook-form";
 import {ErrorMessage} from '@hookform/error-message';
 import classes from './Auth.module.css';
+import classButton from '../CssModules/Button.module.css';
 
 const Form = (props) => {
 
@@ -22,11 +23,6 @@ const Form = (props) => {
 
                 {props.fieldList.map((el, index) => {
                     return <div key={index} className={classes.item}>
-
-                        <label className={classes.label}>
-                            <span>
-                                {el.name}:
-                            </span>
                             <input
                                 {...register(`${el.name}`, {
                                     required: 'Поле обязательное для заполнения',
@@ -42,11 +38,10 @@ const Form = (props) => {
                                 name={el.name}
                                 render={({message}) => <p className={classes.error}>{message}</p>}
                             />
-                        </label>
                     </div>
                 })}
                 {props.error && <p>Вы ввели неверный пароль или имаил</p>}
-                <button disabled={!isValid} className={classes.btn}>Войти</button>
+                <button disabled={!isValid} className={classButton.button}>Войти</button>
             </form>
         </div>
     );

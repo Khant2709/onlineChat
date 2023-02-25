@@ -3,10 +3,11 @@ import {useAuth} from "../../firebase/FirebaseAuthProvider";
 import {useNavigate} from "react-router";
 import {NavLink} from "react-router-dom";
 import Form from "./Form";
-import classes from './Auth.module.css'
+import classes from './Auth.module.css';
+import classButton from '../CssModules/Button.module.css';
 import {useSelector} from "react-redux";
 
-const Registration = () => {
+const Login = (props) => {
 
     const {login, forgetPassword} = useAuth();
     const currentUserId = useSelector(state => state.auth.currentUserId);
@@ -39,8 +40,9 @@ const Registration = () => {
     ]
 
     useEffect(() => {
-        currentUserId && navigate(`/profile/${currentUserId}`)
-    },[currentUserId])
+        currentUserId && props.setShow(true);
+        currentUserId && navigate(`/profile/${currentUserId}`);
+    }, [currentUserId])
 
 
     const logIn = (data) => {
@@ -65,8 +67,10 @@ const Registration = () => {
         <div className={classes.loginBlock}>
             {show
                 ? <>
-                    <label className={classes.label}>
-                                Введите ваш пароль
+                    <div className={classes.title}>
+                        Востановление пароля
+                    </div>
+                    <div className={classes.item}>
                         <input type={'email'}
                                placeholder={'Введите ваш email'}
                                value={text}
@@ -74,15 +78,19 @@ const Registration = () => {
                                onChange={(e) => {
                                    setText(e.target.value)
                                }}/>
-                    </label>
-                    <button onClick={() => forget(text)} className={classes.btn}>Забыл пароль</button>
-                    <div onClick={() => setShow(false)} className={classes.forget}>Я помню</div>
+                        <button onClick={() => forget(text)} className={classButton.button}>Забыл пароль</button>
+                        <div onClick={() => setShow(false)} className={classes.forget}>Я помню</div>
+                    </div>
                 </>
+
                 : <>
+                    <div className={classes.title}>
+                        Авторизация
+                    </div>
                     <Form login={logIn} fieldList={fieldList} error={error}/>
                     <div onClick={() => setShow(true)} className={classes.forget}>Забыл пароль?</div>
                     <NavLink to={'/registration'}>
-                        <button className={classes.btn}>Зарегистрироваться</button>
+                        <button className={classButton.button}>Зарегистрироваться</button>
                     </NavLink>
                 </>
             }
@@ -90,4 +98,4 @@ const Registration = () => {
     );
 };
 
-export default Registration;
+export default Login;

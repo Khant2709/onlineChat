@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import classes from './Profile.module.css'
 import image from '../../image/anonymity.png'
 import FormToProfile from "./FormToProfile";
+import classButton from "../CssModules/Button.module.css";
 
 
 const Profile = (props) => {
@@ -33,8 +34,8 @@ const Profile = (props) => {
                                 }
                             )}
                             {props.myProfile
-                                ? <button className={classes.btn} onClick={() => setIsEdit(true)}>Редактировать</button>
-                                : <button className={classes.btn} onClick={() => props.createChat(props.currentUser.uid)}
+                                ? <button className={classButton.button} onClick={() => setIsEdit(true)}>Редактировать</button>
+                                : <button className={classButton.button} onClick={() => props.createChat(props.currentUser.uid)}
                                 >Отправить сообщение</button>}
                         </>
                     }

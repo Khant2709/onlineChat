@@ -22,7 +22,7 @@ const ChatContainer = () => {
     const chatsList = useSelector(state => state.users.chatsList);
 
     const [currentChat, setCurrentChat] = useState(null);
-    const [chekSubscription, setChekSubscription] = useState(null);
+    const [chekSubscription, setChekSubscription] = useState();
 
     const navigate = useNavigate();
     const params = useParams();
