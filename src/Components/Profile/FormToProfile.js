@@ -34,16 +34,16 @@ const FormToProfile = (props) => {
 
                             <input
                                 {...register(`${el.name}`, {
-                                    required: el.required,
-                                    minLength: el.minLength,
-                                    pattern: el.pattern,
-                                    max: el.max,
-                                    min: el.min,
-                                    disabled: el.disabled
+                                    required: el.required ? el.required : null,
+                                    minLength: el.minLength ? el.minLength : null,
+                                    pattern: el.pattern ? el.pattern : null,
+                                    max: el.max ? el.max : null,
+                                    min: el.min ? el.min : null,
                                 })}
                                 placeholder={el.name}
                                 type={el.type}
                                 className={classes.inp}
+                                readOnly={el.type === 'email' && true }
 
                             />
 

@@ -22,20 +22,14 @@ const Login = (props) => {
         {
             type: 'email',
             name: 'email',
-            minLength: null,
             pattern: {
-                value: /^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я\.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u,
+                value: /^([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+\.)*[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+([\p{L}\p{N}\-]+\.?){1,}[a-zA-Z]{2,}$/u,
                 message: 'Введите корректно свой имаил',
             },
         },
         {
             type: 'password',
             name: 'password',
-            minLength: {
-                value: 6,
-                message: 'Минимально 6 символов'
-            },
-            pattern: null,
         },
     ]
 
@@ -50,7 +44,7 @@ const Login = (props) => {
             .then((userCredential) => {
                 const user = userCredential.user;
                 navigate(`/profile/${user.uid}`);
-                console.log('5555', user)
+                // console.log('5555', user)
             })
             .catch((error) => {
                 setError(true);

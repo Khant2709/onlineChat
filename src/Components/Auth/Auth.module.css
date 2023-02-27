@@ -16,6 +16,14 @@
 
 .item {
     margin: 2em 0;
+    position: relative;
+}
+
+.item img {
+    width: 2em;
+    position: absolute;
+    top: 7%;
+    right: 12%;
 }
 
 .inp {
@@ -38,7 +46,7 @@
 .error{
     color: rgba(255, 0, 0, 0.66);
     font-size: 0.8em;
-    margin-top: 1em;
+    margin-top: 0.6em;
 }
 
 .forget {

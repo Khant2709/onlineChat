@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import './App.css';
 import Registration from "./Components/Auth/Registration";
-import {Route, Routes} from "react-router";
+import {Route, Routes, useLocation, useNavigate} from "react-router";
 import Login from "./Components/Auth/Login";
 import HeaderContainer from "./Components/Header/HeaderContainer";
 import ProfileContainer from "./Components/Profile/ProfileContainer";
@@ -14,9 +14,12 @@ function App() {
     const currentUserId = useSelector(state => state.auth.currentUserId);
     const [show, setShow] = useState(false);
     const [showAllChats, setShowAllChats] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         currentUserId && setShow(true);
+        location.pathname.split('/').join('') === 'profile' && navigate(`/profile/${currentUserId}`);
     }, [currentUserId])
 
     return (
@@ -39,7 +42,7 @@ function App() {
                 : <div  className={'main'}>
                     <button className='glowing-btn' onClick={() => setShow(true)}>
                         <span className='glowing-txt'>В<span
-                        className='faulty-letter'>Х</span>ОД</span>
+                    className='faulty-letter'>ОЙ</span>ТИ</span>
                     </button>
                 </div>
             }

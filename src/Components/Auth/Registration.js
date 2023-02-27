@@ -26,7 +26,6 @@ const Registration = () => {
         {
             type: 'email',
             name: 'email',
-            minLength: null,
             pattern: {
                 value: /^((([0-9A-Za-z]{1}[-0-9A-z\.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я\.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u,
                 message: 'Введите корректно свой имаил',
@@ -36,12 +35,6 @@ const Registration = () => {
         {
             type: 'password',
             name: 'password',
-            minLength: {
-                value: 6,
-                message: 'Минимально 6 символов'
-            },
-            pattern: null,
-
         },
     ]
 
@@ -51,7 +44,7 @@ const Registration = () => {
                 const user = userCredential.user;
                 // console.log('777', user)
                 updateUser({uid: user.uid, name: data.name, email: user.email});
-                navigate('/profile');
+                navigate(`/profile/${user.uid}`);
             })
             .catch((error) => {
                 console.log('errorCode', error.code)
