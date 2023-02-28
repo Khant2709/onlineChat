@@ -5,6 +5,7 @@
 
     display: flex;
     flex-direction: column;
+    overflow-y: hidden;
 }
 
 .header {
@@ -40,4 +41,17 @@
     height: 92vh;
     display: flex;
     flex-direction: row;
+}
+
+::-webkit-scrollbar {
+    width: 7px; /* ширина для вертикального скролла */
+    height: 8px; /* высота для горизонтального скролла */
+    background-color: #301a9a;
+    max-height: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #344484;
+    border-radius: 10em;
+    box-shadow: inset 1px 1px 10px #f3faf7;
 }

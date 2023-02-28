@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Navbar from "./Navbar";
 import {useSelector} from "react-redux";
-import {useNavigate} from "react-router";
+import {useLocation, useNavigate} from "react-router";
 import {useDatabase} from "../../firebase/FirebaseDatabaseProvider";
 
 const NavbarContainer = () => {
@@ -17,6 +17,8 @@ const NavbarContainer = () => {
     const [searchText, setSearchText] = useState('')
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const nowUrl = location.pathname.split('/chat/')[1];
 
     useEffect(() => {
         //Проверяем на приватные переписки если есть проверяем доступ и отрисовываем
@@ -62,6 +64,7 @@ const NavbarContainer = () => {
                     setSearchText={setSearchText}
                     readMessage={readMessage}
                     currentUserId={currentUserId}
+                    nowUrl={nowUrl}
             />
         </>
     );

@@ -9,7 +9,7 @@ const Navbar = (props) => {
         <div className={'navbar'}>
 
             <div className={classes.searchChat}>
-                <input placeholder={'search'}
+                <input placeholder={'Найти чат'}
                        className={classes.searcher}
                        value={props.searchText}
                        onChange={(e) => props.setSearchText(e.target.value)}
@@ -19,9 +19,10 @@ const Navbar = (props) => {
             <div className={classes.chatsList}>
                 {props.chatsList.map(chat => {
                     let dontReadingMessages = chat.messages && chat.messages.filter(message =>
-                        !message.readUser || message.readUser && message.readUser.every(el => el !== props.currentUserId)).length
+                        !message.readUser ||
+                        message.readUser && message.readUser.every(el => el !== props.currentUserId)).length
 
-                    return <div key={chat.chatId} className={classes.chat}
+                    return <div key={chat.chatId} className={props.nowUrl === chat.chatId ? classes.chatActive : classes.chat}
                                 onClick={() => props.readMessage(chat)}>
                         <div className={classes.chatName}>
                             {chat.chatName}
@@ -37,7 +38,7 @@ const Navbar = (props) => {
 
             <div className={classes.createChat}>
                 <button onClick={() => props.navigate('/chat/create')}
-                        className={classButton.button}>Создать новый чат
+                        className={classButton.button}>Создать чат
                 </button>
             </div>
         </div>

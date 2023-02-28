@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import classes from './Chat.module.css'
 import {useNavigate, useParams} from "react-router";
 import ChatCreate from "./ChatCreate";
@@ -23,11 +23,15 @@ const ChatContainer = () => {
 
     const [currentChat, setCurrentChat] = useState(null);
     const [chekSubscription, setChekSubscription] = useState();
+    const [searchText, setSearchText] = useState('')
 
+
+    const newMessageRef = useRef('');
     const navigate = useNavigate();
     const params = useParams();
     const nowUrl = Object.values(params).join();
-    const usersInChat = usersList.filter(user => currentChat?.subscribers?.some(el => el === user.uid))
+    const usersInChat = usersList.filter(user => currentChat?.subscribers?.some(el => el === user.uid));
+    const searchUser = usersInChat.length !== 0 && usersInChat.filter(user => user.name.toLowerCase().includes(searchText));
 
     //Проверка подписки пользователя на чат
     useEffect(() => {
@@ -38,6 +42,11 @@ const ChatContainer = () => {
     useEffect(() => {
         setCurrentChat(chatsList.find(chat => chat.chatId === nowUrl))
     }, [chatsList, nowUrl])
+
+
+    useEffect(()=> {
+        currentChat && currentChat.messages && newMessageRef.current.scrollIntoView({behavior:'smooth'})
+    }, [currentChat])
 
     //Создание нового чата
     const createChat = (name) => {
@@ -94,11 +103,14 @@ const ChatContainer = () => {
                 : <Chat currentChat={currentChat}
                         sendMessage={sendMessage}
                         usersList={usersList}
-                        usersInChat={usersInChat}
+                        usersInChat={searchUser}
                         currentUserId={currentUserId}
                         chekSubscription={chekSubscription}
                         subscribe={subscribe}
                         navigate={navigate}
+                        newMessageRef={newMessageRef}
+                        searchText={searchText}
+                        setSearchText={setSearchText}
                 />
             }
         </div>

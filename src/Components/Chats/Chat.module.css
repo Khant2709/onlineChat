@@ -83,16 +83,17 @@
 
 /* ------------------ Стилизация основного блока чата*/
 .MainBlockChat {
-    /*flex-basis: 89%;*/
+    flex-basis: 89%;
     height: 100vh;
     display: flex;
     flex-direction: row;
-    overflow: auto;
+    overflow-y: auto;
 
 }
 
 .content {
     width: 100%;
+    overflow-y: auto;
     display: flex;
     justify-content: center;
 }
@@ -111,6 +112,23 @@
     background-color: #333333;
     border: 1px solid black;
     padding: 0.5em;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.searchUser {
+    flex-basis: 5%;
+    margin: 0.1em;
+}
+
+.userSearcher {
+    width: 100%;
+    height: 100%;
+    color: white;
+    background-color: black;
+    border: 0.1em solid rgb(89, 89, 89);
+    border-radius: 0.5em ;
+    padding-left: 1em;
 }
 
 .user {

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import './App.css';
 import Registration from "./Components/Auth/Registration";
-import {Route, Routes, useLocation, useNavigate} from "react-router";
+import {Route, Routes, useLocation, useNavigate, useParams} from "react-router";
 import Login from "./Components/Auth/Login";
 import HeaderContainer from "./Components/Header/HeaderContainer";
 import ProfileContainer from "./Components/Profile/ProfileContainer";

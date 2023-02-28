@@ -50,8 +50,8 @@ const Chat = (props) => {
                                                         className={message.uid === props.currentUserId ? classes.message + ' ' + classes.myMessage : classes.message}>
                                                 <span className={classes.messageOwner}>{messageOwner.name}</span>
                                                 <span className={classes.messageText}>{message.message}</span>
-                                                <span
-                                                    className={classes.messageDate}>{date ? date.toLocaleTimeString() : '*:*'}</span>
+                                                <span className={classes.messageDate} ref={props.newMessageRef}>
+                                                    {date ? date.toLocaleTimeString() : '*:*'}</span>
                                             </div>
 
                                         })}
@@ -72,6 +72,13 @@ const Chat = (props) => {
                 </div>
 
                 {showUsers && <div className={classes.usersChat}>
+                    <div className={classes.searchUser}>
+                        <input placeholder={'Найти пользователя'}
+                               className={classes.userSearcher}
+                               value={props.searchText}
+                               onChange={(e) => props.setSearchText(e.target.value)}
+                        />
+                    </div>
                     {props.usersInChat.map((user, index) => {
                         return <div className={classes.user}
                                     key={index}
