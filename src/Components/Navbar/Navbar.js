@@ -19,15 +19,14 @@ const Navbar = (props) => {
             <div className={classes.chatsList}>
                 {props.chatsList.map(chat => {
                     let dontReadingMessages = chat.messages && chat.messages.filter(message =>
-                        !message.readUser ||
-                        message.readUser && message.readUser.every(el => el !== props.currentUserId)).length
+                        !message.readUser || message.readUser && message.readUser.every(el => el !== props.currentUserId)).length
 
                     return <div key={chat.chatId} className={props.nowUrl === chat.chatId ? classes.chatActive : classes.chat}
                                 onClick={() => props.readMessage(chat)}>
                         <div className={classes.chatName}>
                             {chat.chatName}
                         </div>
-                        {dontReadingMessages !== 0 &&
+                        {!!dontReadingMessages && dontReadingMessages !== 0 &&
                         chat.subscribers.some(el => el === props.currentUserId) &&
                         <div className={classes.chatAlert}>
                             {dontReadingMessages}

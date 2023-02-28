@@ -14,7 +14,7 @@ const NavbarContainer = () => {
 
 
     const [chats, setChats] = useState([]);
-    const [searchText, setSearchText] = useState('')
+    const [searchText, setSearchText] = useState('');
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -44,8 +44,9 @@ const NavbarContainer = () => {
     const searchChat = chats.filter(chat => chat.chatName.toLowerCase().includes(searchText))
 
     const readMessage = (chat) => {
+        const currentChat = chatsList.find(el => el.chatId === chat.chatId)
         chat.messages && updateChat({
-            ...chat, messages: chat.messages.map(message => {
+            ...currentChat, messages: chat.messages.map(message => {
                 return message.readUser
                     ? message.readUser.every(el => el !== currentUserId)
                         ? {...message, readUser: [...message.readUser, currentUserId]}
