@@ -45,7 +45,7 @@ const ChatContainer = () => {
 
 
     useEffect(()=> {
-        currentChat && currentChat.messages && newMessageRef.current.scrollIntoView({behavior:'smooth'})
+        currentChat && currentChat?.messages && newMessageRef?.current?.scrollIntoView({behavior:'smooth'})
     }, [currentChat])
 
     //Создание нового чата
