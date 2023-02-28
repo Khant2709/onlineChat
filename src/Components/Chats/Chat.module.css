@@ -83,9 +83,12 @@
 
 /* ------------------ Стилизация основного блока чата*/
 .MainBlockChat {
-    flex-basis: 89%;
+    /*flex-basis: 89%;*/
+    height: 100vh;
     display: flex;
     flex-direction: row;
+    overflow: auto;
+
 }
 
 .content {
@@ -96,7 +99,6 @@
 
 .chat {
     width: 100%;
-    overflow: auto;
     display: flex;
     flex-direction: column;
 }

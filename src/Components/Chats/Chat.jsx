@@ -42,6 +42,7 @@ const Chat = (props) => {
                             {props.currentChat
                                 ? <>{props.currentChat.messages && props.currentChat?.messages?.length !== 0
                                     ? <div className={classes.chat}>
+
                                         {props.currentChat.messages.map((message, index) => {
                                             const date = new Date(message.time);
                                             let messageOwner = props.usersList.find(user => user.uid === message.uid)
@@ -69,6 +70,7 @@ const Chat = (props) => {
                     }
 
                 </div>
+
                 {showUsers && <div className={classes.usersChat}>
                     {props.usersInChat.map((user, index) => {
                         return <div className={classes.user}

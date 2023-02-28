@@ -76,6 +76,7 @@ const ChatContainer = () => {
     //Отправка сообщения в чат
     const sendMessage = (messageText) => {
         const messageCredential = {
+            readUser: [currentUserId],
             uid: currentUserId,
             message: messageText,
             time: Date.now()

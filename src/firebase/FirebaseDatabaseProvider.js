@@ -52,8 +52,7 @@ const FirebaseDatabaseProvider = (props) => {
 
     return (
         <MyContext.Provider
-            value={{updateUser,
-                updateChat,
+            value={{updateUser, updateChat
             }}>
             {props.children}
         </MyContext.Provider>
