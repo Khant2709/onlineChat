@@ -100,28 +100,25 @@ const ProfileContainer = () => {
     }
 
     const createChat = (userId) => {
+        const privatUsers = [currentUserId, userId];
+        const chatCredential = {
+            chatName: privatUsers,
+            chatId: getId(),
+            chatAdmin: currentUserId,
+            subscribers: privatUsers,
+            privateChat: privatUsers
+        };
 
-        let privatUsers = [currentUserId, userId];
-
-        chatsList.forEach(chat => {
-            if (Array.isArray(chat.chatName)) {
-                if (chat.chatName.every(element => privatUsers.some(el => el === element))) {
-                    navigate(`/chat/${chat.chatId}`)
-                } else {
-                    const chatCredential = {
-                        chatName: privatUsers,
-                        chatId: getId(),
-                        chatAdmin: currentUserId,
-                        subscribers: privatUsers,
-                        privateChat: privatUsers
-                    };
-                    updateChat(chatCredential)
-                        .then(() => {
-                            navigate(`/chat/${chatCredential.chatId}`)
-                        })
-                }
-            }
+        let existsChat = chatsList.find(chat => {
+            return Array.isArray(chat.chatName) && chat.chatName.every(element => privatUsers.some(el => el === element))
         })
+
+        existsChat
+            ? navigate(`/chat/${existsChat.chatId}`)
+            : updateChat(chatCredential)
+                .then(() => {
+                    navigate(`/chat/${chatCredential.chatId}`)
+                })
     }
 
     return (

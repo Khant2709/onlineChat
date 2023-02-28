@@ -55,7 +55,7 @@ const Form = (props) => {
                         />
                     </div>
                 })}
-                {props.error && <p>Вы ввели неверный пароль или имаил</p>}
+                {props.error && <p className={classes.error}>Вы ввели неверный пароль или имаил</p>}
                 <button disabled={!isValid} className={classButton.button}>Войти</button>
             </form>
         </div>
