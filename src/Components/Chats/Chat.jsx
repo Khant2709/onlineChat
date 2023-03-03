@@ -1,17 +1,31 @@
 import React, {useState} from 'react';
 import classes from './Chat.module.css'
-import image from "../../image/anonymity.png";
+import iconSetting from "../../image/icon-setting.png";
+import iconDelete from "../../image/free-icon-delete-3356414.png";
+import iconPencil from "../../image/free-icon-pencil-7585561.png";
 import classButton from "../CssModules/Button.module.css";
 import InputEmoji from "react-input-emoji";
+import MenuSettings from "./MenuSettings";
+import MenuUsersInChat from "./MenuUsersInChat";
 
 const Chat = (props) => {
 
     const [messageText, setMessageText] = useState('');
+    const [showMenuSetting, setShowMenuSetting] = useState(false);
     const [showUsers, setShowUsers] = useState(false);
 
     const sendMessage = () => {
         props.sendMessage(messageText)
         setMessageText('');
+    }
+
+    const visibilitySettingMenu = () => {
+        if(!showUsers && !showMenuSetting){
+            setShowMenuSetting(true);
+        } else {
+            setShowUsers(false);
+            setShowMenuSetting(false);
+        }
     }
 
     return (
@@ -26,10 +40,8 @@ const Chat = (props) => {
                                 : props.currentChat.chatName
                             }
                         </div>
-                        <div className={classes.chatHeaderInfo} onClick={() => setShowUsers(!showUsers)}>
-                            Участников: {props.currentChat.subscribers.length}
-                            <br/>
-                            <p>{showUsers ? 'Скрыть' : 'Показать'} участников </p>
+                        <div className={classes.chatHeaderInfo} onClick={visibilitySettingMenu}>
+                            <img alt={'no img'} src={iconSetting}/>
                         </div>
                     </>
                     : <p>Идет загрузка...</p>
@@ -44,12 +56,20 @@ const Chat = (props) => {
                                 ? <>{props.currentChat.messages && props.currentChat?.messages?.length !== 0
                                     ? <div className={classes.chat}>
 
-                                        {props.currentChat.messages.map((message, index) => {
+                                        {Object.values(props.currentChat.messages).map((message) => {
                                             const date = new Date(message.time);
                                             let messageOwner = props.usersList.find(user => user.uid === message.uid)
-                                            return <div key={index}
-                                                        className={message.uid === props.currentUserId ? classes.message + ' ' + classes.myMessage : classes.message}>
-                                                <span className={classes.messageOwner}>{messageOwner.name}</span>
+                                            return <div key={message.time} className={message.uid === props.currentUserId
+                                                ? classes.message + ' ' + classes.myMessage : classes.message}>
+                                                <div className={classes.messageHeader}>
+                                                    <span className={classes.messageOwner}>{messageOwner.name}</span>
+                                                    <div >
+                                                        <img alt={'no img'} src={iconPencil}/>
+                                                        <img alt={'no img'} src={iconDelete}
+                                                             onClick={() => message.uid === props.currentUserId && props.removeMessage(props.currentChat.chatId, message.time)}
+                                                        />
+                                                    </div>
+                                                </div>
                                                 <span className={classes.messageText}>{message.message}</span>
                                                 <span className={classes.messageDate} ref={props.newMessageRef}>
                                                     {date ? date.toLocaleTimeString() : '*:*'}</span>
@@ -72,41 +92,32 @@ const Chat = (props) => {
 
                 </div>
 
-                {showUsers && <div className={classes.usersChat}>
-                    <div className={classes.searchUser}>
-                        <input placeholder={'Найти пользователя'}
-                               className={classes.userSearcher}
-                               value={props.searchText}
-                               onChange={(e) => props.setSearchText(e.target.value)}
-                        />
-                    </div>
-                    {props.usersInChat.map((user, index) => {
-                        return <div className={classes.user}
-                                    key={index}
-                                    onClick={() => props.navigate(`/profile/${user.uid}`)}
-                        >
-                            <img alt={'No picture'} src={image}/>
-                            <div className={classes.userCredential}>
-                                <span>{user.name}</span><br/>
-                                <span>{user.email}</span>
-                            </div>
-                        </div>
-                    })}
-                </div>
-                }
+                {showMenuSetting && <MenuSettings
+                    setShowUsers={setShowUsers}
+                    setShowMenuSetting={setShowMenuSetting}
+                />}
+
+                {showUsers && <MenuUsersInChat
+                    searchText={props.searchText}
+                    usersInChat={props.usersInChat}
+                    navigate={props.navigate}
+                    setSearchText={props.setSearchText}
+                    setShowUsers={setShowUsers}
+                    setShowMenuSetting={setShowMenuSetting}
+                />}
             </div>
 
             <div className={classes.chatFooter}>
-                    <InputEmoji
-                        borderRadius={10}
-                        placeholder={'Введите сообщение'}
-                        value={messageText}
-                        theme={'dark'}
-                        onChange={setMessageText}
-                        cleanOnEnter
-                        onEnter={sendMessage}
-                        disabled={!props.chekSubscription}
-                    />
+                <InputEmoji
+                    borderRadius={10}
+                    placeholder={'Введите сообщение'}
+                    value={messageText}
+                    theme={'dark'}
+                    onChange={setMessageText}
+                    cleanOnEnter
+                    onEnter={sendMessage}
+                    disabled={!props.chekSubscription}
+                />
                 <button disabled={messageText.trim().length < 2}
                         onClick={sendMessage}
                         className={classButton.button}

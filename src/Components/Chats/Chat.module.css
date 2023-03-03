@@ -71,14 +71,17 @@
     font-weight: 600;
     color: #fff;
     font-size: 1.5em;
-    margin-left: 1em;
 }
 
 .chatHeaderInfo {
-    margin-right: 2em;
+    align-self: center;
     font-family: "Roboto", sans-serif;
     font-size: 0.8em;
     cursor: pointer;
+}
+
+.chatHeaderInfo img {
+    width: 2em;
 }
 
 .chatHeaderInfo p {
@@ -112,67 +115,6 @@
     flex-direction: column;
 }
 
-/*------------------ Стилизация выдвигающегося меню юзеров в чате*/
-.usersChat {
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    background-color: #333333;
-    border: 1px solid black;
-    padding: 0.5em;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-.searchUser {
-    flex-basis: 5%;
-    margin: 0.1em;
-}
-
-.userSearcher {
-    width: 100%;
-    height: 100%;
-    color: white;
-    background-color: black;
-    border: 0.1em solid rgb(89, 89, 89);
-    border-radius: 0.5em ;
-    padding-left: 1em;
-}
-
-.user {
-    display: flex;
-    flex-direction: row;
-    padding: 0.5em;
-    margin: 0.5em 0;
-    color: whitesmoke;
-    background-color: #171717;
-    border-radius: 0.5em;
-    box-shadow: 0 1px 2px rgba(0,255,255,0.5),
-    0 2px 4px rgba(0,255,255,0.5),
-    0 4px 8px rgba(0,255,255,0.5),
-    0 8px 16px rgba(0,255,255,0.5);
-}
-
-.user:hover {
-    box-shadow: 0 2px 4px rgba(0,255,255,0.7),
-    0 4px 8px rgba(0,255,255,0.7),
-    0 8px 16px rgba(0,255,255,0.7),
-    0 12px 24px rgba(0,255,255,0.7);
-    transform: translateY(-5px);
-    transition: 0.2s;
-}
-
-.user img {
-    width: 2.5em;
-    height: 2.5em;
-    margin-right: 0.5em;
-}
-
-.userCredential {
-    align-self: center;
-    font-size: 0.8em;
-}
-
 /* ------------------ Стилизация подписки на чат*/
 .chekSubscription {
     align-self: center;
@@ -194,7 +136,7 @@
     margin-left: 2em;
     border-radius: 1.6em 1.25em 1.25em 0.07em;
     color: whitesmoke;
-    background-color: #3c79f8;
+    background-color: #243350;
     align-self: start;
     display: flex;
     flex-direction: column;
@@ -203,12 +145,25 @@
 .message.myMessage{
     margin-right: 2em;
     border-radius: 1.25em 1.6em 0.07em 1.25em;
-    background-color: #301a9a;
+    background-color: #1e0e6c;
     align-self: end;
+}
+
+.messageHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .messageOwner {
     font-size: 1em;
+}
+
+.messageHeader img {
+    width: 1em;
+    height: 1em;
+    margin-right: 0.5em;
+    cursor: pointer;
 }
 
 .messageText {

@@ -1,0 +1,154 @@
+.mainBlock {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    background-color: #333333;
+    border: 1px solid black;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/*Оформление шапки */
+.header {
+    flex-basis: 5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5em;
+}
+
+.nameChat {
+    width: 80%;
+    color: white;
+    font-size: 1.2em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.header img {
+    align-self: center;
+    width: 1em;
+    height: 1em;
+    cursor: pointer;
+}
+
+/* Аватарка чата, название и подписчики*/
+.chatInfo {
+    flex-basis: 10%;
+    display: flex;
+    flex-direction: row;
+    padding: 0.5em;
+    border-bottom: 1px solid black;
+    color: white;
+
+}
+
+.chatInfo img {
+    width: 3em;
+    height: 3em;
+    margin-right: 1em;
+}
+
+.chatInfoText {
+    width: 75%;
+}
+
+.chatName {
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.amountSubs {
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+
+/* Поле для поиска юзеров*/
+.usersInChat {
+    flex-basis: 5%;
+    display: flex;
+    flex-direction: row;
+    padding: 0.5em;
+    border-bottom: 1px solid black;
+    color: white;
+}
+
+.usersInChat:hover{
+    background-color: #222222;
+    cursor: pointer;
+}
+
+.usersInChat img {
+    width: 2em;
+    height: 2em;
+    margin-right: 2em;
+}
+
+.usersInChat p {
+    align-self: center;
+}
+
+    /* Основная информация и владелец чата*/
+.chatCredential {
+    color: white;
+    flex-basis: 75%;
+    display: flex;
+    flex-direction: row;
+    padding: 0.5em;
+    border-bottom: 1px solid black;
+}
+
+.chatCredential img{
+    width: 2em;
+    height: 2em;
+    margin-right: 2em;
+}
+
+.chatCredentialBlock {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+}
+
+.aboutChat {
+    flex-basis: 80%;
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+.chatCreator p{
+    margin-top: 0.5em;
+    font-size: 1.1em;
+    cursor: pointer;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* Футер*/
+.footer {
+    color: white;
+    flex-basis: 5%;
+    display: flex;
+    flex-direction: row;
+    padding: 0.5em;
+}
+
+.footer:hover {
+    background-color: #222222;
+    cursor: pointer;
+}
+
+.footer img {
+    width: 2em;
+    height: 2em;
+    margin-right: 2em;
+}
+
+.footer p {
+    align-self: center;
+}

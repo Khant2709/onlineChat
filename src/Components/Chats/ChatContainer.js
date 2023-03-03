@@ -15,7 +15,7 @@ const getId = () => {
 
 const ChatContainer = () => {
 
-    const {updateUser, updateChat} = useDatabase();
+    const {updateUser, updateChat, actionsWithMessage, removeMessage} = useDatabase();
     const currentUserId = useSelector(state => state.auth.currentUserId);
     const currentUser = useSelector(state => state.auth.currentUser);
     const usersList = useSelector(state => state.users.usersList);
@@ -44,8 +44,8 @@ const ChatContainer = () => {
     }, [chatsList, nowUrl])
 
 
-    useEffect(()=> {
-        currentChat && currentChat?.messages && newMessageRef?.current?.scrollIntoView({behavior:'smooth'})
+    useEffect(() => {
+        currentChat && currentChat?.messages && newMessageRef?.current?.scrollIntoView({behavior: 'smooth'})
     }, [currentChat])
 
     //Создание нового чата
@@ -54,7 +54,8 @@ const ChatContainer = () => {
             chatName: name,
             chatId: getId(),
             chatAdmin: currentUserId,
-            subscribers: [currentUserId]
+            subscribers: [currentUserId],
+            messages: [],
         };
         // console.log(chatCredential)
         updateChat(chatCredential)
@@ -84,16 +85,18 @@ const ChatContainer = () => {
 
     //Отправка сообщения в чат
     const sendMessage = (messageText) => {
+        const time = Date.now();
         const messageCredential = {
             readUser: [currentUserId],
             uid: currentUserId,
             message: messageText,
-            time: Date.now()
+            time: time
         }
-        updateChat({
-            ...currentChat,
-            messages: currentChat.messages ? [...currentChat.messages, messageCredential] : [messageCredential]
-        })
+        // updateChat({
+        //     ...currentChat,
+        //     messages: currentChat.messages ? [...currentChat.messages, messageCredential] : [messageCredential]
+        // })
+        actionsWithMessage(currentChat.chatId, time, messageCredential)
     }
 
     return (
@@ -111,6 +114,7 @@ const ChatContainer = () => {
                         newMessageRef={newMessageRef}
                         searchText={searchText}
                         setSearchText={setSearchText}
+                        removeMessage={removeMessage}
                 />
             }
         </div>

@@ -45,15 +45,22 @@ const NavbarContainer = () => {
 
     const readMessage = (chat) => {
         const currentChat = chatsList.find(el => el.chatId === chat.chatId)
-        chat.messages && updateChat({
-            ...currentChat, messages: chat.messages.map(message => {
-                return message.readUser
-                    ? message.readUser.every(el => el !== currentUserId)
-                        ? {...message, readUser: [...message.readUser, currentUserId]}
-                        : message
-                    : {...message, readUser: [currentUserId]}
-            })
-        })
+        const updatedMessages = {};
+
+        for (const [key, message] of Object.entries(currentChat.messages)) {
+            const readUser = message.readUser || [];
+
+            if (!readUser.includes(currentUserId)) {
+                updatedMessages[key] = {
+                    ...message,
+                    readUser: [...readUser, currentUserId]
+                };
+            } else {
+                updatedMessages[key] = message;
+            }
+        }
+
+        chat.messages && updateChat({ ...currentChat, messages: updatedMessages });
         navigate(`/chat/${chat.chatId}`);
     }
 

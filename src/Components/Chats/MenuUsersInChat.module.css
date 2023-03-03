@@ -1,0 +1,72 @@
+/*------------------ Стилизация выдвигающегося меню юзеров в чате*/
+.usersChat {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    background-color: #333333;
+    border: 1px solid black;
+    padding: 0.5em;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/*Блок поиска*/
+.searchUser {
+    flex-basis: 5%;
+    margin: 0.1em;
+    display: flex;
+    flex-direction: row;
+}
+
+.searchUser img {
+    width: 1.5em;
+    height: 1.5em;
+    align-self: center;
+    margin-right: 0.5em;
+    cursor: pointer;
+}
+
+.searchUser input {
+    width: 100%;
+    height: 100%;
+    color: white;
+    background-color: black;
+    border: 0.1em solid rgb(89, 89, 89);
+    border-radius: 0.5em ;
+    padding-left: 1em;
+}
+
+/*Стилизация списка юзеров*/
+.user {
+    display: flex;
+    flex-direction: row;
+    padding: 0.5em;
+    margin: 0.5em 0;
+    color: whitesmoke;
+    background-color: #171717;
+    border-radius: 0.5em;
+    box-shadow: 0 1px 2px rgba(0,255,255,0.5),
+    0 2px 4px rgba(0,255,255,0.5),
+    0 4px 8px rgba(0,255,255,0.5),
+    0 8px 16px rgba(0,255,255,0.5);
+}
+
+.user:hover {
+    box-shadow: 0 2px 4px rgba(0,255,255,0.7),
+    0 4px 8px rgba(0,255,255,0.7),
+    0 8px 16px rgba(0,255,255,0.7),
+    0 12px 24px rgba(0,255,255,0.7);
+    transform: translateY(-5px);
+    transition: 0.2s;
+}
+
+.user img {
+    width: 2.5em;
+    height: 2.5em;
+    margin-right: 0.5em;
+}
+
+.userCredential {
+    align-self: center;
+    font-size: 0.8em;
+}

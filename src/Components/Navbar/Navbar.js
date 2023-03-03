@@ -19,7 +19,8 @@ const Navbar = (props) => {
 
             <div className={classes.chatsList}>
                 {props.chatsList.map(chat => {
-                    let dontReadingMessages = chat.messages && chat.messages.filter(message =>
+                    let arrayMessages =chat?.messages && Object.values(chat?.messages);
+                    let dontReadingMessages = chat.messages && arrayMessages.filter(message =>
                         !message.readUser || message.readUser && message.readUser.every(el => el !== props.currentUserId)).length
                     return <div key={chat.chatId}
                                 className={props.nowUrl === chat.chatId ? classes.chatActive : classes.chat}
@@ -32,8 +33,8 @@ const Navbar = (props) => {
                                 <p>{chat.chatName}</p>
                             </div>
                             <div className={classes.lastMessage}>
-                                <p>{chat.messages && chat.messages.length !== 0 &&
-                                chat.messages[chat.messages.length - 1].message}</p>
+                                <p>{chat.messages && arrayMessages.length !== 0 &&
+                                arrayMessages[arrayMessages.length - 1].message}</p>
                             </div>
                         </div>
                         {!!dontReadingMessages && dontReadingMessages !== 0 &&
