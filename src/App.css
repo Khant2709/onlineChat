@@ -28,7 +28,7 @@
 }
 
 .navbar {
-    flex-basis: 25%;
+    width: 25%;
     height: 92vh;
     background-color: #333333;
     border: 1px solid black;
@@ -41,6 +41,7 @@
     height: 92vh;
     display: flex;
     flex-direction: row;
+    overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {

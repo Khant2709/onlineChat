@@ -81,6 +81,14 @@
     cursor: pointer;
 }
 
+.chatHeaderInfo p {
+    margin-top: 0.3em;
+    font-size: 0.7em;
+}
+
+.chatHeaderInfo p:hover {
+    color: #3c79f8;
+}
 /* ------------------ Стилизация основного блока чата*/
 .MainBlockChat {
     flex-basis: 89%;
@@ -214,6 +222,7 @@
 
 /*  ------------------ стилизация Footer в чате */
 .chatFooter {
+    max-width: 100%;
     flex-basis: 6%;
     display: flex;
     flex-direction: row;
@@ -223,11 +232,7 @@
     background-color: #333333;
 }
 
-.chatFooter textarea {
-    width: 90%;
-    padding: 0.6em;
-    color: whitesmoke;
-    background-color: black;
-    border-radius: 0.7em;
-    resize: none;
+.chatFooter button {
+    align-self: center;
+    font-size: 0.8em;
 }

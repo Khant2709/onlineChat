@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import classes from './Chat.module.css'
 import image from "../../image/anonymity.png";
 import classButton from "../CssModules/Button.module.css";
+import InputEmoji from "react-input-emoji";
 
 const Chat = (props) => {
 
@@ -28,7 +29,7 @@ const Chat = (props) => {
                         <div className={classes.chatHeaderInfo} onClick={() => setShowUsers(!showUsers)}>
                             Участников: {props.currentChat.subscribers.length}
                             <br/>
-                            Онлайн:
+                            <p>{showUsers ? 'Скрыть' : 'Показать'} участников </p>
                         </div>
                     </>
                     : <p>Идет загрузка...</p>
@@ -96,15 +97,20 @@ const Chat = (props) => {
             </div>
 
             <div className={classes.chatFooter}>
-                <textarea placeholder={'Введите сообщение'}
-                          value={messageText}
-                          onChange={(e) => setMessageText(e.target.value)}
-                          disabled={!props.chekSubscription}
-                />
+                    <InputEmoji
+                        borderRadius={10}
+                        placeholder={'Введите сообщение'}
+                        value={messageText}
+                        theme={'dark'}
+                        onChange={setMessageText}
+                        cleanOnEnter
+                        onEnter={sendMessage}
+                        disabled={!props.chekSubscription}
+                    />
                 <button disabled={messageText.trim().length < 2}
                         onClick={sendMessage}
                         className={classButton.button}
-                >Send
+                >Отправить
                 </button>
             </div>
         </div>

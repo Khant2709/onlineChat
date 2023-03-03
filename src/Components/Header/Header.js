@@ -1,11 +1,13 @@
 import React from 'react';
 import classes from './Header.module.css'
+import logoImage from '../../image/logo.png'
 
 const Header = (props) => {
 
     return (
         <>
             <div className={classes.logo}>
+                <img alt={'no img'} src={logoImage}/>
                 <span>START-CHAT</span>
             </div>
             <div className={classes.menu}>

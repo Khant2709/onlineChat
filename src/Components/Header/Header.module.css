@@ -3,7 +3,14 @@
     font-weight: 600;
     color: #fff;
     font-size: 2rem;
-    margin-left: 2em;
+    margin-left: 1em;
+    display: flex;
+    flex-direction: row;
+}
+
+.logo img {
+    width: 1.2em;
+    margin-right: 0.5em;
 }
 
 .menu {
