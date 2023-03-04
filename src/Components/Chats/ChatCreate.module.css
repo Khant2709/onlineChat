@@ -1,0 +1,81 @@
+.chatCreate {
+    min-width: 40%;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #333333;
+    border-radius: 0.6em;
+    padding: 0 2em;
+
+}
+
+.chatCreateTitle {
+    margin: 1em auto;
+    padding: 0.1em;
+    font-size: 2em;
+    color: whitesmoke;
+    border-bottom: 1px solid rgba(245, 245, 245, 0.3);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.chatCreateInp {
+    width: 90%;
+    margin: 1.2em auto;
+    color: white;
+}
+
+.chatCreateInp input {
+    width: 100%;
+    padding: 0.6em;
+    margin-top: 0.3em;
+    color: whitesmoke;
+    background-color: black;
+    border-radius: 10px;
+}
+
+.chatCreateBtn {
+    border: 1px solid red;
+    margin-top: 2em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+}
+
+.form button {
+    align-self: center;
+}
+
+.form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px auto 10px;
+    color: whitesmoke;
+    background-color: #171717;
+    border-radius: 10px;
+}
+
+.form textarea {
+    width: 100%;
+    height: 20vh;
+    padding: 10px;
+    margin: 10px auto;
+    color: whitesmoke;
+    background-color: #171717;
+    border-radius: 10px;
+    resize: none;
+}
+.error {
+    color: rgba(255, 0, 0, 0.66);
+    font-size: 0.8em;
+    margin: 0.5em 0;
+}

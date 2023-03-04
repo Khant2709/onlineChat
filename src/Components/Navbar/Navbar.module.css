@@ -20,6 +20,7 @@
     padding-left: 1em;
 }
 
+/*Стилизация списка чатов*/
 .chatsList {
     flex-basis: 90%;
     overflow-y: auto;

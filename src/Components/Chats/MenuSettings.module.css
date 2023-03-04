@@ -118,6 +118,7 @@
     flex-basis: 80%;
     width: 100%;
     margin-bottom: 1em;
+    white-space: break-spaces;
 }
 
 .chatCreator p{
@@ -129,6 +130,32 @@
     text-overflow: ellipsis;
 }
 
+.chatCreator p:hover {
+    color: #3c79f8;
+}
+
+/*Кнопка для редоктирования чата*/
+.editChat {
+    border-bottom: 1px solid black;
+    align-items: center;
+    color: white;
+    flex-basis: 5%;
+    display: flex;
+    flex-direction: row;
+    padding: 0.5em;
+}
+
+.editChat:hover {
+    background-color: #222222;
+    cursor: pointer;
+}
+
+.editChat img {
+    width: 1.5em;
+    height: 1.5em;
+    margin-right: 2em;
+}
+
 /* Футер*/
 .footer {
     color: white;
@@ -136,6 +163,11 @@
     display: flex;
     flex-direction: row;
     padding: 0.5em;
+}
+
+.footer.delete:hover {
+    background-color: #3f0909;
+    cursor: pointer;
 }
 
 .footer:hover {

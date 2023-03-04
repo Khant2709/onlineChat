@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useEffect} from 'react';
 import {initializeApp} from "firebase/app";
-import {getDatabase, ref, set, onValue, remove} from "firebase/database";
+import {getDatabase, ref, set, onValue, remove, update} from "firebase/database";
 import {firebaseConfig} from "./Firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {updateChatsList, updateUsersList} from "../Redux/UsersSlice";
@@ -31,15 +31,19 @@ const FirebaseDatabaseProvider = (props) => {
         })
     }
 
+    const newUpdateChat = (updates) => {
+        return update(ref(db), updates);
+    }
+
     const actionsWithMessage = (chatId, messageId,messageCredential) => {
         return set(ref(db, `allChats/${chatId}/messages/${messageId}`), {
             ...messageCredential
         })
     }
 
-    //Удаление сообщения из чата
-    const removeMessage = (chatId, messageId) => {
-        return remove(ref(db, `allChats/${chatId}/messages/${messageId}`))
+    //Удаление сообщения из чата или чата (можно удалить все только сылку отправить)
+    const removal = (pathToDelete) => {
+        return remove(ref(db, pathToDelete))
     }
 
     useEffect(() => {
@@ -63,8 +67,9 @@ const FirebaseDatabaseProvider = (props) => {
 
     return (
         <MyContext.Provider
-            value={{updateUser, updateChat,
-                actionsWithMessage ,removeMessage
+            value={{updateUser,
+                updateChat, newUpdateChat,
+                actionsWithMessage ,removal
             }}>
             {props.children}
         </MyContext.Provider>

@@ -44,23 +44,25 @@ const NavbarContainer = () => {
     const searchChat = chats.filter(chat => chat.chatName.toLowerCase().includes(searchText))
 
     const readMessage = (chat) => {
-        const currentChat = chatsList.find(el => el.chatId === chat.chatId)
-        const updatedMessages = {};
+        const currentChat = chatsList.find(el => el.chatId === chat.chatId);
+        if(currentChat.messages){
+            const updatedMessages = {};
 
-        for (const [key, message] of Object.entries(currentChat.messages)) {
-            const readUser = message.readUser || [];
+            for (const [key, message] of Object.entries(currentChat.messages)) {
+                const readUser = message.readUser || [];
 
-            if (!readUser.includes(currentUserId)) {
-                updatedMessages[key] = {
-                    ...message,
-                    readUser: [...readUser, currentUserId]
-                };
-            } else {
-                updatedMessages[key] = message;
+                if (!readUser.includes(currentUserId)) {
+                    updatedMessages[key] = {
+                        ...message,
+                        readUser: [...readUser, currentUserId]
+                    };
+                } else {
+                    updatedMessages[key] = message;
+                }
             }
-        }
 
-        chat.messages && updateChat({ ...currentChat, messages: updatedMessages });
+            chat.messages && updateChat({ ...currentChat, messages: updatedMessages });
+        }
         navigate(`/chat/${chat.chatId}`);
     }
 

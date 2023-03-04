@@ -3,6 +3,7 @@ import classes from './Profile.module.css'
 import image from '../../image/anonymity.png'
 import FormToProfile from "./FormToProfile";
 import classButton from "../CssModules/Button.module.css";
+import Preloader from "../Preloader/Preloader";
 
 
 const Profile = (props) => {
@@ -21,8 +22,7 @@ const Profile = (props) => {
                         <img alt={'No picture'} src={image}/>
                     </div>
                     {isEdit
-                        ?
-                        <FormToProfile fieldList={props.fieldList} setIsEdit={setIsEdit} updateData={props.updateData}/>
+                        ? <FormToProfile fieldList={props.fieldList} setIsEdit={setIsEdit} updateData={props.updateData}/>
                         : <>
                             {Object.entries(props.currentUser).map((element, index) => {
                                     if (element[0] !== 'uid' && element[0] !== 'listMyChats' && element[0] !== 'subscription') {
@@ -40,7 +40,7 @@ const Profile = (props) => {
                         </>
                     }
                 </>
-                : <p>Идет загрузка....</p>
+                : <Preloader/>
             }
 
         </div>

@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import classes from './Chat.module.css'
-import {useNavigate, useParams} from "react-router";
+import {useLocation, useNavigate, useParams} from "react-router";
 import ChatCreate from "./ChatCreate";
 import Chat from "./Chat";
 import {useSelector} from "react-redux";
@@ -15,7 +15,7 @@ const getId = () => {
 
 const ChatContainer = () => {
 
-    const {updateUser, updateChat, actionsWithMessage, removeMessage} = useDatabase();
+    const {updateUser, updateChat, actionsWithMessage, removal, newUpdateChat} = useDatabase();
     const currentUserId = useSelector(state => state.auth.currentUserId);
     const currentUser = useSelector(state => state.auth.currentUser);
     const usersList = useSelector(state => state.users.usersList);
@@ -23,15 +23,48 @@ const ChatContainer = () => {
 
     const [currentChat, setCurrentChat] = useState(null);
     const [chekSubscription, setChekSubscription] = useState();
-    const [searchText, setSearchText] = useState('')
+    const [searchText, setSearchText] = useState('');
 
 
     const newMessageRef = useRef('');
     const navigate = useNavigate();
     const params = useParams();
     const nowUrl = Object.values(params).join();
+    const location = useLocation();
     const usersInChat = usersList.filter(user => currentChat?.subscribers?.some(el => el === user.uid));
     const searchUser = usersInChat.length !== 0 && usersInChat.filter(user => user.name.toLowerCase().includes(searchText));
+    const pathUrl = location.pathname.split('/').filter(el => el.length !== 0)
+
+    const fieldList = [
+        {
+            typeTeg: 'input',
+            type: 'text',
+            name: 'name',
+            nameRu: 'Имя чата',
+            value: pathUrl?.some(el => el === 'create') ? null : currentChat?.chatName,
+            required: 'Поле обязательное для заполнения',
+            minLength: {
+                value: 2,
+                message: 'Минимально 2 символов'
+            },
+        },
+        {
+            typeTeg: 'textarea',
+            type: 'text',
+            name: 'about',
+            nameRu: 'Описание чата',
+            value: pathUrl?.some(el => el === 'create') ? null : currentChat?.chatAbout,
+            required: 'Поле обязательное для заполнения',
+            minLength: {
+                value: 10,
+                message: 'Минимально 10 символов'
+            },
+            maxLength: {
+                value: 100,
+                message: 'Максимально 100 символов'
+            },
+        },
+    ]
 
     //Проверка подписки пользователя на чат
     useEffect(() => {
@@ -43,21 +76,21 @@ const ChatContainer = () => {
         setCurrentChat(chatsList.find(chat => chat.chatId === nowUrl))
     }, [chatsList, nowUrl])
 
-
+    //Автоскроллин к концу чата
     useEffect(() => {
         currentChat && currentChat?.messages && newMessageRef?.current?.scrollIntoView({behavior: 'smooth'})
     }, [currentChat])
 
     //Создание нового чата
-    const createChat = (name) => {
+    const createChat = (data) => {
         const chatCredential = {
-            chatName: name,
+            chatName: data.name,
+            chatAbout: data.about,
             chatId: getId(),
             chatAdmin: currentUserId,
             subscribers: [currentUserId],
             messages: [],
         };
-        // console.log(chatCredential)
         updateChat(chatCredential)
             .then(() => {
                 updateUser({
@@ -73,14 +106,30 @@ const ChatContainer = () => {
 
     //Подписка на чат
     const subscribe = () => {
-        updateChat({
-            ...currentChat,
-            subscribers: currentChat.subscribers ? [...currentChat.subscribers, currentUserId] : [currentUserId]
-        })
+        const updates = {};
+        updates[`allChats/${currentChat.chatId}/subscribers`] = currentChat.subscribers ? [...currentChat.subscribers, currentUserId] : [currentUserId]
+        newUpdateChat(updates)
+
         updateUser({
             ...currentUser,
             subscription: currentUser.subscription ? [...currentUser.subscription, nowUrl] : [nowUrl]
         })
+    }
+
+    //Отписка от чата
+    const unsubscribe = () => {
+        const updates = {};
+        updates[`allChats/${currentChat.chatId}/subscribers`] = currentChat.subscribers.filter(el => el !== currentUserId)
+        newUpdateChat(updates)
+    }
+
+    //Изменения информации чата
+    const changeInformationChat = (currentChat, data) => {
+        const updates = {};
+        updates[`allChats/${currentChat.chatId}/chatName`] = data.name;
+        updates[`allChats/${currentChat.chatId}/chatAbout`] = data.about;
+        newUpdateChat(updates);
+        navigate(`/chat/${currentChat.chatId}`)
     }
 
     //Отправка сообщения в чат
@@ -92,17 +141,21 @@ const ChatContainer = () => {
             message: messageText,
             time: time
         }
-        // updateChat({
-        //     ...currentChat,
-        //     messages: currentChat.messages ? [...currentChat.messages, messageCredential] : [messageCredential]
-        // })
         actionsWithMessage(currentChat.chatId, time, messageCredential)
+    }
+
+    const changeMessage = (updateMessage, newText) => {
+        actionsWithMessage(currentChat.chatId, updateMessage.time, {...updateMessage, message: newText})
     }
 
     return (
         <div className={classes.chatContainer}>
-            {nowUrl === 'create'
-                ? <ChatCreate createChat={createChat}/>
+            {pathUrl.some(el => el === 'create' || el === 'edit')
+                ? <ChatCreate createChat={createChat}
+                              fieldList={fieldList}
+                              pathUrl={pathUrl}
+                              chatsList={chatsList}
+                              changeInformationChat={changeInformationChat}/>
                 : <Chat currentChat={currentChat}
                         sendMessage={sendMessage}
                         usersList={usersList}
@@ -114,7 +167,9 @@ const ChatContainer = () => {
                         newMessageRef={newMessageRef}
                         searchText={searchText}
                         setSearchText={setSearchText}
-                        removeMessage={removeMessage}
+                        removal={removal}
+                        changeMessage={changeMessage}
+                        unsubscribe={unsubscribe}
                 />
             }
         </div>

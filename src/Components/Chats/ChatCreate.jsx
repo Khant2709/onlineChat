@@ -1,42 +1,24 @@
-import React, {useState} from 'react';
-import classes from './Chat.module.css'
-import {useNavigate} from "react-router";
-import classButton from "../CssModules/Button.module.css";
+import React from 'react';
+import classes from './ChatCreate.module.css'
+import FormToChat from "./FormToChat";
 
 
 const ChatCreate = (props) => {
 
-    const [nameChat, setNameChat] = useState('');
-    const navigate = useNavigate();
+    const currentChat = props.chatsList.find(chat => chat.chatId === props.pathUrl[2]);
 
-    const addChat = () => {
-        props.createChat(nameChat);
-        setNameChat('');
+    const actionWithChat = (data) => {
+        props.pathUrl.some(el => el === 'create')
+            ? props.createChat(data)
+            : props.changeInformationChat(currentChat ,data)
     }
 
     return (
         <div  className={classes.chatCreate}>
             <div className={classes.chatCreateTitle}>
-                Создание нового чата
+                {props.pathUrl.some(el => el === 'create') ? 'Создание нового чата' : currentChat?.chatName}
             </div>
-            <div className={classes.chatCreateInp}>
-                <input type={'text'}
-                       placeholder={'Название чата'}
-                       value={nameChat}
-                       onChange={(e)=>setNameChat(e.target.value)}
-                />
-            </div>
-            <div className={classes.chatCreateBtn}>
-                <button disabled={nameChat.trim().length < 3}
-                        onClick={addChat}
-                        className={classButton.button}
-                >
-                    Создать
-                </button>
-                <button onClick={() => navigate('/profile')} className={classButton.button}>
-                    Отмена
-                </button>
-            </div>
+            <FormToChat fieldList={props.fieldList} actionWithChat={actionWithChat}/>
         </div>
     );
 };
