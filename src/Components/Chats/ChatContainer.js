@@ -129,7 +129,11 @@ const ChatContainer = () => {
         updates[`allChats/${currentChat.chatId}/chatName`] = data.name;
         updates[`allChats/${currentChat.chatId}/chatAbout`] = data.about;
         newUpdateChat(updates);
-        navigate(`/chat/${currentChat.chatId}`)
+        comeBack(`/chat/${currentChat.chatId}`)
+    }
+
+    const comeBack = (pathToChat) => {
+        navigate(pathToChat)
     }
 
     //Отправка сообщения в чат
@@ -155,7 +159,8 @@ const ChatContainer = () => {
                               fieldList={fieldList}
                               pathUrl={pathUrl}
                               chatsList={chatsList}
-                              changeInformationChat={changeInformationChat}/>
+                              changeInformationChat={changeInformationChat}
+                              comeBack={comeBack}/>
                 : <Chat currentChat={currentChat}
                         sendMessage={sendMessage}
                         usersList={usersList}

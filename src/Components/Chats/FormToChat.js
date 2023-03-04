@@ -59,7 +59,7 @@ const FormToChat = (props) => {
                 })}
                 <button disabled={!isValid} className={classButton.button}>Сохранить</button>
             </form>
-            <button className={classButton.button}>Отмена</button>
+            <button className={classButton.button} onClick={() => props.comeBack(-1)}>Отмена</button>
         </div>
     );
 };
