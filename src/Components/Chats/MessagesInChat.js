@@ -2,6 +2,15 @@ import React, {useState} from 'react';
 import classes from "./Chat.module.css";
 import iconPencil from "../../image/free-icon-pencil-7585561.png";
 import iconDelete from "../../image/free-icon-delete-3356414.png";
+import moment from 'moment/min/moment-with-locales';
+moment.locale('ru')
+
+const settingCalendar = {
+    lastDay: '[вчера в] LT',
+    sameDay: '[сегодня в] LT',
+    lastWeek: 'dddd [] LT',
+    sameElse: 'L'
+}
 
 const MessagesInChat = (props) => {
 
@@ -25,7 +34,7 @@ const MessagesInChat = (props) => {
 
             {Object.values(props.currentChat.messages).map((message) => {
 
-                const date = new Date(message.time);
+                const date = moment(message.time).calendar(null,settingCalendar);
                 const messageOwner = props.usersList.find(user => user.uid === message.uid)
 
                 return <div key={message.time}
@@ -55,8 +64,7 @@ const MessagesInChat = (props) => {
                         : <span className={classes.messageText}>{message.message}</span>
                     }
 
-                    <span className={classes.messageDate} ref={props.newMessageRef}>
-                        {date ? date.toLocaleTimeString() : '*:*'}</span>
+                    <span className={classes.messageDate} ref={props.newMessageRef}>{date}</span>
                 </div>
             })}
 

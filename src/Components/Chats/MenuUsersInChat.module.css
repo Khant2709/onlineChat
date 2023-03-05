@@ -69,4 +69,21 @@
 .userCredential {
     align-self: center;
     font-size: 0.8em;
+    display: flex;
+    flex-direction: column;
+    line-height: 0.6;
+    width: 100%;
+
+}
+
+.online {
+    font-size: 0.8em;
+    color: rgba(173, 255, 47, 0.76);
+    align-self: end;
+}
+
+.offline {
+    font-size: 0.8em;
+    color: rgba(112, 112, 112, 0.76);
+    align-self: end;
 }

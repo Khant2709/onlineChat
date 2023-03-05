@@ -9,6 +9,7 @@ import Preloader from "../Preloader/Preloader";
 const Profile = (props) => {
 
     const [isEdit, setIsEdit] = useState(false);
+    const rows = ['name', 'email', 'age', 'country', 'phone', 'status'];
 
     return (
         <div className={classes.profileBlock}>
@@ -25,13 +26,11 @@ const Profile = (props) => {
                         ? <FormToProfile fieldList={props.fieldList} setIsEdit={setIsEdit} updateData={props.updateData}/>
                         : <>
                             {Object.entries(props.currentUser).map((element, index) => {
-                                    if (element[0] !== 'uid' && element[0] !== 'listMyChats' && element[0] !== 'subscription') {
-                                        return <div key={index} className={classes.item}>
+                                        return rows.includes(element[0]) && <div key={index} className={classes.item}>
                                             <span>{element[0]}</span>
                                             <span>{element[1] ? element[1] : 'Не указан'}</span>
                                         </div>
                                     }
-                                }
                             )}
                             {props.myProfile
                                 ? <button className={classButton.button} onClick={() => setIsEdit(true)}>Редактировать</button>

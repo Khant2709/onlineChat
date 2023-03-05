@@ -51,7 +51,8 @@ const FirebaseAuthProvider = (props) => {
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             // console.log('Получение uid =', user)
-            dispatch(updateUid(user ? user.uid : null))
+            dispatch(updateUid(user ? user.uid : null));
+            user && localStorage.setItem('currentUserId', user.uid)
         })
     }, [])
 

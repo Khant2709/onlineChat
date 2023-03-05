@@ -28,7 +28,10 @@ const MenuUsersInChat = (props) => {
                     <img alt={'No picture'} src={image}/>
                     <div className={classes.userCredential}>
                         <span>{user.name}</span><br/>
-                        <span>{user.email}</span>
+                        <span>{user.email}</span><br/>
+                        <span className={user.isOnline ? classes.online : classes.offline}>
+                            {user.isOnline ? 'Онлайн' : 'Оффлайн'}
+                        </span>
                     </div>
                 </div>
             })}

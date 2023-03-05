@@ -60,8 +60,8 @@ const ChatContainer = () => {
                 message: 'Минимально 10 символов'
             },
             maxLength: {
-                value: 100,
-                message: 'Максимально 100 символов'
+                value: 300,
+                message: 'Максимально 300 символов'
             },
         },
     ]
@@ -174,8 +174,7 @@ const ChatContainer = () => {
                         setSearchText={setSearchText}
                         removal={removal}
                         changeMessage={changeMessage}
-                        unsubscribe={unsubscribe}
-                />
+                        unsubscribe={unsubscribe}/>
             }
         </div>
     );

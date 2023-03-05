@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useEffect} from 'react';
 import {initializeApp} from "firebase/app";
-import {getDatabase, ref, set, onValue, remove, update} from "firebase/database";
+import {getDatabase, ref, set, onValue, remove, update, onDisconnect} from "firebase/database";
 import {firebaseConfig} from "./Firebase";
 import {useDispatch, useSelector} from "react-redux";
 import {updateChatsList, updateUsersList} from "../Redux/UsersSlice";
@@ -19,9 +19,14 @@ const FirebaseDatabaseProvider = (props) => {
 
     //Создание или обновление пользователя
     const updateUser = ({...user}) => {
-         return set(ref(db, 'allUsers/' + user.uid), {
+        return set(ref(db, 'allUsers/' + user.uid), {
             ...user
         })
+    }
+
+    const newUpdateUser = (updates) => {
+        return update(ref(db), updates);
+
     }
 
     //Создание чата
@@ -35,7 +40,7 @@ const FirebaseDatabaseProvider = (props) => {
         return update(ref(db), updates);
     }
 
-    const actionsWithMessage = (chatId, messageId,messageCredential) => {
+    const actionsWithMessage = (chatId, messageId, messageCredential) => {
         return set(ref(db, `allChats/${chatId}/messages/${messageId}`), {
             ...messageCredential
         })
@@ -57,19 +62,37 @@ const FirebaseDatabaseProvider = (props) => {
         onValue(chatsListRef, (snapshot) => {
             const data = snapshot.val();
             // console.log("chatList", data)
-            dispatch(updateChatsList( Object.values(data)))
+            dispatch(updateChatsList(Object.values(data)))
         })
-    },[])
+    }, [])
 
     useEffect(() => {
         dispatch(updateCurrentUser(usersList.find(user => user.uid === currentUserId)))
-    },[usersList, currentUserId])
+    }, [usersList, currentUserId])
+
+    useEffect(() => {
+        const previousUserId = localStorage.getItem('currentUserId');
+        const currentUserRef = ref(db, `allUsers/${previousUserId}`)
+        const updates = {};
+        updates[`/isOnline`] = false;
+        updates[`/lastTimeToVisit`] = Date.now();
+
+        onDisconnect(currentUserRef).update(updates)
+        if (currentUserId) {
+            const updates = {};
+            updates[`allUsers/${currentUserId}/isOnline`] = true;
+            updates[`allUsers/${currentUserId}/lastTimeToVisit`] = null;
+            newUpdateUser(updates)
+        }
+    }, [currentUserId])
+
 
     return (
         <MyContext.Provider
-            value={{updateUser,
+            value={{
+                updateUser, newUpdateUser,
                 updateChat, newUpdateChat,
-                actionsWithMessage ,removal
+                actionsWithMessage, removal
             }}>
             {props.children}
         </MyContext.Provider>
